@@ -6,8 +6,9 @@
 
 // Classe das acoes
 typedef struct Stocks {
-  int id;
-  float value;
+  char *code;
+  char *companyName;
+  double currentPrice;
   int availableAmount;
   bool isAvailable;
 } stock;
@@ -15,26 +16,29 @@ typedef struct Stocks {
 /*TODO: Metodos de acoes*/
 
 //Construtor
-void create_stock(stock *s, int id, float value, int avaliableAmount) {
-  s->id = id;
-  s->value = value;
+void create_stock(stock *s, char *id, char *cName, double value, int avaliableAmount) {
+  s->code = id;
+  s->companyName = cName;
+  s->currentPrice = value;
   s->availableAmount = avaliableAmount;
   s->isAvailable = true;
 }
 
-// Classe dos investidores
-typedef struct Investidor {
+// Classe dos Investidores
+typedef struct Investor {
   pthread_t id;
-  int currentBalance;
+  char* name;
+  double currentBalance;
   stock ownedStocks[MAX_STOCKS];
 
-} investidor;
+} investor;
 
-/*TODO: Metodos de investidores*/
+/*TODO: Metodos de Investores*/
 
 //Construtor
-void create_investidor(investidor *inv, pthread_t id, int currentBalance) {
+void create_Investor(investor *inv, char* name, pthread_t id, double currentBalance) {
   inv->id = id;
+  inv->name = name;
   inv->currentBalance = currentBalance;
 }
 
