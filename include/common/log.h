@@ -1,5 +1,5 @@
-#ifndef LOG_H
-#define LOG_H
+#ifndef LOG_COMMON_H
+#define LOG_COMMON_H
 
 #include <stdio.h>
 #include <pthread.h>
@@ -17,4 +17,4 @@ void log_message(LogLevel level, const char *format, ...);
 
 void log_cleanup();
 
-#endif // LOG_H
+#endif // LOG_COMMON_H
