@@ -2,44 +2,34 @@
 
 ```mermaid
 classDiagram
-    class Investor {
-        - id: pthread_t
-        - name: char[120]
-        - balance: double
-        - portfolio: Portfolio
-        + create_investor() int
-        + view_balance() void
-        + view_portfolio() void
-    }
+    class Book {
+        - orders: Order[200]
+        - transactions: Transaction[100]
+        - input_queue: OrderQueue*
+        - output_queue: OrderQueue*
+        - mutex: pthread_mutex_t*
+        - cond: pthread_cond_t*
 
-    class Portfolio {
-        - owner: Investor
-        - positions: Position[]
-        + buy_asset(code: char[], quantity: int, price: double) int
-        + sell_asset(code: char[], quantity: int) int
-        + reconcile_positions() void "updates positions with average price"
-    }
-
-    class Position {
-        - asset_code: char[6]
-        - quantity: int
-        - average_price: double
-        + update_position(quantity: int, price: double) void
-        + calculate_average_price(new_quantity: int, new_price: double) double
+        + init_book(input_queue: Queue*, output_queue: Queue*, mutex: pthread_mutex_t*, cond: pthread_cond_t*) void
+        + trade() void
+        + add_transaction(transaction: Transaction*, mutex: pthread_mutex_t*, cond: pthread_cond_t*) void
     }
 
     class Order {
         - id: int
-        - type: OrderType
-        - asset_code: char[6]
-        - quantity: int
+        - investor: Investor*
+        - asset: Asset*
+        - shares: int
+        - pending_shares: int
         - price: double
+        - order_type: OrderType
         - status: OrderStatus
-        + process() int
-        + cancel() int
+        - transactions: Transaction*
+
+        + emit_order(id: int, investor: Investor*, asset: Asset*, shares: int, price: double, order_type: char*) void
     }
 
-    class OrderType {
+    class OrderAction {
         <<Enumeration>>
         BUY
         SELL
@@ -47,45 +37,77 @@ classDiagram
 
     class OrderStatus {
         <<Enumeration>>
-        PENDING
-        CANCELED
-        DONE
+        OPEN
+        CLOSE
+    }
+
+    class Investor {
+        - id: pthread_t
+        - name: char[120]
+        - positions: Position[10]
+
+        + create_investor(id: pthread_t) void
+        + add_asset_position(asset_position: Position*) void
+        + update_asset_position(asset_code: char[6], shares: int) void
+        + get_asset_position(asset_code: char[6]) Position*
+    }
+
+    class Position {
+        - asset_code: char[6]
+        - shares: int
+
+        + create_position(asset_code: char[6], shares: int) void
     }
 
     class Asset {
         - code: char[6]
         - company_name: char[100]
-        - quotation: double
-        - ipo_quantity: int "initial number of shares"
-        + create_asset() int
-    }
+        - market_volume: int
 
-    class System {
-	    - inventory: Asset[]
-        - order_queue: Queue<Order>
-        + process_orders() void
-        + register_order(order: Order) void
-        + asset_ipo(asset: Asset, initialQuantity: int) void
+        + create_asset() int
     }
 
     class Transaction {
         - id: int
-        - order: Order
-        - value: double
-        - createdAt: struct tm
-        + create_transaction() int
+        - selling_order: Order*
+        - buying_order: Order*
+        - shares: int
+        - price: double
+        - total: double
+        - created_at: time_t
+
+        + create_transaction(selling_order: Order*, buying_order: Order*, shares: int, price: double) void
+        + calculate_total(shares: int, price: double) void
+        + close_buy_order() void
+        + close_sell_order() void
+        + add_buy_order_pending_shares(shares: int) void
+        + add_sell_order_pending_shares(shares: int) void
     }
 
-    Investor "1" -- "0..*" Order : emits >
-    Investor "1" -- "1" Portfolio : owns >
-    System "1" -- "0..*" Order : processes >
-    System "1" -- "0..*" Asset : registers >
-    Order "1" -- "0..*" Transaction : results in >
-    Order "1" -- "1" OrderType : has
-    Order "1" -- "1" OrderStatus : has
-    Transaction "1" -- "1" Asset : refers to >
-    Portfolio "1" -- "0..*" Position : contains >
+    class OrderQueue {
+        - orders: Order[100]
+
+        + create_order_queue(order_queue: OrderQueue*) int
+        + push(order: Order*) void
+        + pop() Order*
+        + len() int
+    }
+
+    Book --> Order
+    Book --> Transaction
+    Book --> OrderQueue
+    Book --> pthread_mutex_t
+    Book --> pthread_cond_t
+
+    Order --> Investor
+    Order --> Asset
+    Order --> Transaction
+    Order --> OrderStatus
+    Order --> OrderAction
+    Investor --> Position
+    Transaction --> Order
 ```
+
 
 ## Investidores
 
@@ -97,7 +119,3 @@ Estrutura:
 - O tempo de vida de cada investidor será aleatório, por exemplo, entre 20 e 30 segundos.
 - Apenas grupos de 5 investidores estarão ativos simultaneamente.
 - Um pool de 20 investidores será gerenciado para revezar grupos de threads após o tempo de vida de cada investidor expirar.
-
-```
-
-```
