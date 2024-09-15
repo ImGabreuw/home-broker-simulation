@@ -13,7 +13,7 @@ const char *get_error_message(int error_code)
         return "Validation error.";
     case ERR_MEMORY_ALLOCATION:
         return "Memory allocation error.";
-    case ERR_FILE_NOT_FOUND:
+    case ERR_NOT_FOUND:
         return "File not found.";
     case SUCCESS:
         return "Operation completed successfully.";
