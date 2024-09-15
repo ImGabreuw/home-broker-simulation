@@ -9,6 +9,7 @@
         "investor.h": "c",
         "pthread.h": "c",
         "stock.h": "c",
-        "system.h": "c"
+        "system.h": "c",
+        "position.h": "c"
     }
 }

@@ -2,20 +2,18 @@
 
 SRC_DIR="./src"
 INCLUDE_DIR="./include"
+TEST_DIR="./test"
 
 OUTPUT="home_broker"
 
-# Flags do compilador
 CFLAGS="-Wall -Werror -I$INCLUDE_DIR/common -I$INCLUDE_DIR/models -I$INCLUDE_DIR/services -pthread"
 
-# Lista de arquivos fonte
-SRC_FILES=$(find . -name "*.c")
+SRC_FILES=$(find $SRC_DIR -name "*.c" ! -path "$TEST_DIR/*")
 
 echo "Compiling project..."
 
 gcc $CFLAGS -o $OUTPUT $SRC_FILES
 
-# Verificação de sucesso ou falha
 if [ $? -eq 0 ]; then
     echo "Compilation successful! Output binary: $OUTPUT"
 else
