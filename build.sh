@@ -6,7 +6,7 @@ INCLUDE_DIR="./include"
 OUTPUT="home_broker"
 
 # Flags do compilador
-CFLAGS="-Wall -Werror -I$INCLUDE_DIR/common -I$INCLUDE_DIR/models -pthread"
+CFLAGS="-Wall -Werror -I$INCLUDE_DIR/common -I$INCLUDE_DIR/models -I$INCLUDE_DIR/services -pthread"
 
 # Lista de arquivos fonte
 SRC_FILES=$(find . -name "*.c")

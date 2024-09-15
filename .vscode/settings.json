@@ -8,6 +8,7 @@
         "string.h": "c",
         "investor.h": "c",
         "pthread.h": "c",
-        "stock.h": "c"
+        "stock.h": "c",
+        "system.h": "c"
     }
 }
