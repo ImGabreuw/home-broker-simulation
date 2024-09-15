@@ -3,17 +3,23 @@
 ```mermaid
 classDiagram
     class Investor {
-        - id: int
+        - id: pthread_t
         - name: char[]
         - balance: double
-        + createOrder()
-        + checkOrderStatus()
+        + create_investor() int
+        + check_order_status()
         + viewPortfolio()
+    }
+
+    class OrderType {
+        <<Enumeration>>
+        BUY
+        SELL
     }
 
     class Order {
         - id: int
-        - type: char[]     % buy or sell
+        - type: OrderType
         - stock: Ticker
         - quantity: int
         - status: char[]
@@ -22,18 +28,18 @@ classDiagram
     }
 
     class Ticket {
-        - code: char[]      % stock code
-        - companyName: char[]
-        - currentPrice: double
-        + generateTicket()
+        - code: char[]
+        - company_name: char[]
+        - current_price: double
+        + create_ticket() int
     }
 
     class System {
 	    - tickers: Ticket[]
-        - orderQueue: Queue<Order>
-        + processOrders()
-        + addOrder(order: Order)
-        + addTicket(order: Order)
+        - order_queue: Queue<Order>
+        + process_orders()
+        + emit_order(order: Order)
+        + ticket_ipo(ticket: Ticker) "register a ticket in home broker"
     }
 
     class Transaction {
@@ -41,18 +47,18 @@ classDiagram
         - order: Order
         - value: double
         - date: struct tm
-        - ticketCode: char[]
+        - ticket_code: char[]
         + record()
     }
 
     class Portfolio {
         - id: int
         - investor: Investor
-        - stocks: Map<char[], int>
-        + addStock(stock: char[], quantity: int)
-        + removeStock(stock: char[], quantity: int)
-        + checkQuantities()
-        + updateCurrentValue()
+        - stocks: Map~char[], int~
+        + buy_stock(stock: char[], quantity: int) int
+        + sell_stock(stock: char[], quantity: int) int
+        + check_positions() void "view amount per ticket"
+        + refresh_value() void
     }
 
     Investor "1" -- "0..*" Order : creates >
@@ -60,6 +66,7 @@ classDiagram
     System "1" -- "0..*" Order : processes >
     System "1" -- "0..*" Ticket : register >
     Order "1" -- "0..*" Transaction : results in >
+    Order "1" -- "1" OrderType : has
     Transaction "1" -- "1" Ticket : refers to >
     Portfolio "1" -- "0..*" Order : includes >
 ```
