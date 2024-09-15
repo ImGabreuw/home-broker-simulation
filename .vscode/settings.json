@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        ".sequelizerc": "javascript",
+        ".stylelintrc": "json",
+        ".prettierrc": "json",
+        "*.tsx": "typescriptreact",
+        "stdio.h": "c",
+        "string.h": "c",
+        "investor.h": "c",
+        "pthread.h": "c",
+        "stock.h": "c"
+    }
+}

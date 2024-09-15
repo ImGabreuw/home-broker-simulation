@@ -2,7 +2,6 @@
 
 ```mermaid
 classDiagram
-    %% Define the Investor class
     class Investor {
         - id: int
         - name: char[]
@@ -12,7 +11,6 @@ classDiagram
         + viewPortfolio()
     }
 
-    %% Define the Order class
     class Order {
         - id: int
         - type: char[]     % buy or sell
@@ -23,7 +21,6 @@ classDiagram
         + cancel()
     }
 
-    %% Define the Ticket class
     class Ticket {
         - code: char[]      % stock code
         - companyName: char[]
@@ -31,7 +28,6 @@ classDiagram
         + generateTicket()
     }
 
-    %% Define the System class
     class System {
 	    - tickers: Ticket[]
         - orderQueue: Queue<Order>
@@ -40,7 +36,6 @@ classDiagram
         + addTicket(order: Order)
     }
 
-    %% Define the Transaction class
     class Transaction {
         - id: int
         - order: Order
@@ -50,7 +45,6 @@ classDiagram
         + record()
     }
 
-    %% Define the Portfolio class
     class Portfolio {
         - id: int
         - investor: Investor
@@ -61,7 +55,6 @@ classDiagram
         + updateCurrentValue()
     }
 
-    %% Define relationships between classes
     Investor "1" -- "0..*" Order : creates >
     Investor "1" -- "1" Portfolio : owns >
     System "1" -- "0..*" Order : processes >
