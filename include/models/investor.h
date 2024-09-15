@@ -1,22 +1,26 @@
-#ifndef INVESTOR_MODELS_H
-#define INVESTOR_MODELS_H
+#ifndef INVESTOR_H
+#define INVESTOR_H
 
 #include <pthread.h>
-#include "stock.h"
 
-#define MAX_STOCKS 10
+#include "position.h"
 
-typedef struct Investor {
+#define MAX_POSITIONS 10
+#define MAX_NAME_LENGTH 60
+
+typedef struct
+{
     pthread_t id;
-    char *name;
-    double currentBalance;
-    stock ownedStocks[MAX_STOCKS];
-} investor;
+    char name[MAX_NAME_LENGTH];
+    Position positions[MAX_POSITIONS];
+} Investor;
 
-int create_investor(investor *investor, pthread_t id, char *name, double currentBalance);
+int create_investor(Investor *investor, pthread_t id, const char *name);
 
-int buy_stock(investor *investor, stock *stock);
+int add_asset_position(Investor *investor, Position *asset_position);
 
-int sell_stock(investor *investor, stock *stock);
+int update_asset_position(Investor *investor, const char *asset_code, int shares);
 
-#endif // INVESTOR_MODELS_H
+Position *get_asset_position(Investor *investor, const char *asset_code);
+
+#endif // INVESTOR_H

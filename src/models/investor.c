@@ -1,98 +1,94 @@
 #include "investor.h"
 
-#include <stdio.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "log.h"
 #include "error_codes.h"
 
-int create_investor(investor *investor, pthread_t id, char *name, double currentBalance)
+int create_investor(Investor *investor, pthread_t id, const char *name)
 {
-    if (name == NULL || strlen(name) == 0)
+    if (name == NULL || strlen(name) >= MAX_NAME_LENGTH)
     {
-        log_message(LOG_WARNING, "Invalid investor name\n");
-        return ERR_VALIDATION;
-    }
-
-    if (currentBalance < 0)
-    {
-        log_message(LOG_WARNING, "Investor balance cannot be negative\n");
+        log_message(LOG_WARNING, "Invalid name\n");
         return ERR_VALIDATION;
     }
 
     investor->id = id;
-    investor->name = name;
-    investor->currentBalance = currentBalance;
+    strncpy(investor->name, name, MAX_NAME_LENGTH - 1);
+    investor->name[MAX_NAME_LENGTH - 1] = '\0';
 
-    memset(investor->ownedStocks, 0, sizeof(investor->ownedStocks));
+    for (int i = 0; i < MAX_POSITIONS; i++)
+    {
+        investor->positions[i].shares = 0;
+        investor->positions[i].asset_code[0] = '\0';
+    }
 
-    log_message(LOG_INFO, "Investor created: %s, ID: %ld, Balance: %.2f\n", name, id, currentBalance);
-
+    log_message(LOG_INFO, "Investor created: ID: %lu, Name: %s\n", id, investor->name);
     return SUCCESS;
 }
 
-int buy_stock(investor *investor, stock *stock)
+int add_asset_position(Investor *investor, Position *asset_position)
 {
-    if (investor == NULL || stock == NULL)
+    for (int i = 0; i < MAX_POSITIONS; i++)
     {
-        log_message(LOG_WARNING, "Invalid investor or stock\n");
-        return ERR_VALIDATION;
-    }
-
-    if (investor->currentBalance < stock->currentPrice)
-    {
-        log_message(LOG_WARNING, "Insufficient balance to buy stock %s\n", stock->code);
-        return ERR_VALIDATION;
-    }
-
-    if (stock->availableAmount <= 0)
-    {
-        log_message(LOG_WARNING, "No available stocks to buy for %s\n", stock->code);
-        return ERR_VALIDATION;
-    }
-
-    for (int i = 0; i < MAX_STOCKS; i++)
-    {
-        if (investor->ownedStocks[i].code == NULL)
+        if (investor->positions[i].shares == 0 && investor->positions[i].asset_code[0] == '\0')
         {
-            investor->currentBalance -= stock->currentPrice;
-            stock->availableAmount--;
+            investor->positions[i] = *asset_position;
 
-            investor->ownedStocks[i] = *stock;
-
-            log_message(LOG_INFO, "Stock %s added to investor %s stock portfolio. Balance: %.2f\n",
-                        stock->code, investor->name, investor->currentBalance);
+            log_message(LOG_INFO, "Position added: Asset Code: %s, Shares: %d\n", asset_position->asset_code, asset_position->shares);
             return SUCCESS;
         }
     }
 
-    log_message(LOG_INFO, "Investor %s stock portfolio is full\n", investor->name);
+    log_message(LOG_WARNING, "No available slot for new position\n");
     return ERR_VALIDATION;
 }
 
-int sell_stock(investor *investor, stock *stock)
+int update_asset_position(Investor *investor, const char *asset_code, int shares)
 {
-    if (investor == NULL || stock == NULL)
+    if (asset_code == NULL || strlen(asset_code) >= 6)
     {
-        log_message(LOG_WARNING, "Invalid investor or stock\n");
+        log_message(LOG_WARNING, "Invalid asset code\n");
         return ERR_VALIDATION;
     }
 
-    for (int i = 0; i < MAX_STOCKS; i++)
+    if (shares < 0)
     {
-        if (investor->ownedStocks[i].code != NULL && strcmp(investor->ownedStocks[i].code, stock->code) == 0)
+        log_message(LOG_WARNING, "Shares cannot be negative\n");
+        return ERR_VALIDATION;
+    }
+
+    for (int i = 0; i < MAX_POSITIONS; i++)
+    {
+        if (strcmp(investor->positions[i].asset_code, asset_code) == 0)
         {
-            investor->currentBalance += stock->currentPrice;
-            stock->availableAmount++;
-
-            investor->ownedStocks[i].code = NULL;
-
-            log_message(LOG_INFO, "Stock %s removed from investor %s stock portfolio. Balance: %.2f\n",
-                        stock->code, investor->name, investor->currentBalance);
+            investor->positions[i].shares = shares;
+            log_message(LOG_INFO, "Position updated: Asset Code: %s, Shares: %d\n", asset_code, shares);
             return SUCCESS;
         }
     }
 
-    log_message(LOG_WARNING, "Stock %s not found in investor %s stock portfolio\n", stock->code, investor->name);
-    return ERR_VALIDATION;
+    log_message(LOG_WARNING, "Position with asset code %s not found\n", asset_code);
+    return ERR_NOT_FOUND;
+}
+
+Position *get_asset_position(Investor *investor, const char *asset_code)
+{
+    if (asset_code == NULL || strlen(asset_code) >= 6)
+    {
+        log_message(LOG_WARNING, "Invalid asset code\n");
+        return NULL;
+    }
+
+    for (int i = 0; i < MAX_POSITIONS; i++)
+    {
+        if (strcmp(investor->positions[i].asset_code, asset_code) == 0)
+        {
+            return &investor->positions[i];
+        }
+    }
+
+    log_message(LOG_WARNING, "Position with asset code %s not found\n", asset_code);
+    return NULL;
 }
