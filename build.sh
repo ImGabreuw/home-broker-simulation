@@ -6,7 +6,7 @@ TEST_DIR="./test"
 
 OUTPUT="home_broker"
 
-CFLAGS="-Wall -Werror -I$INCLUDE_DIR/common -I$INCLUDE_DIR/models -I$INCLUDE_DIR/services -pthread"
+CFLAGS="-Wall -Werror -I$INCLUDE_DIR/common -I$INCLUDE_DIR/models -I$INCLUDE_DIR/scheduler -pthread"
 
 SRC_FILES=$(find $SRC_DIR -name "*.c" ! -path "$TEST_DIR/*")
 

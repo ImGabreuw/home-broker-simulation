@@ -16,7 +16,7 @@ SRC_FILES=$(find $SRC_DIR -name "*.c" ! -name "main.c" ! -path "$TEST_DIR/*")
 
 TEST_FILES=$TEST_FILE
 
-CFLAGS="-I$INCLUDE_DIR/common -I$INCLUDE_DIR/models -I$INCLUDE_DIR/services -pthread"
+CFLAGS="-I$INCLUDE_DIR/common -I$INCLUDE_DIR/models -I$INCLUDE_DIR/scheduler -pthread"
 
 gcc -o $EXEC_FILE $TEST_FILES $SRC_FILES $CFLAGS
 
