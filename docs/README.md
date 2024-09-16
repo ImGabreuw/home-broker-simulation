@@ -87,10 +87,10 @@ classDiagram
     class OrderQueue {
         - orders: Order[100]
 
-        + create_order_queue(order_queue: OrderQueue*) int
-        + push(order: Order*) void
-        + pop() Order*
-        + len() int
+        + init_queue(queue: OrderQueue*) int
+        + enqueue_order(order: Order*) void
+        + dequeue_order(order: Order*) void
+        + size() int
     }
 
     Book --> Order
