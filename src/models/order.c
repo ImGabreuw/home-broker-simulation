@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include "log.h"
+#include "error_codes.h"
 
 int emit_order(Order *order, int id, Investor *investor, Asset *asset, int shares, double price, const char *order_type_str)
 {

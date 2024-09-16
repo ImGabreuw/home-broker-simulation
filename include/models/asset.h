@@ -1,9 +1,6 @@
 #ifndef ASSET_H
 #define ASSET_H
 
-#include "error_codes.h"
-#include "log.h"
-
 #define MAX_CODE_LENGTH 6
 #define MAX_COMPANY_NAME_LENGTH 50
 

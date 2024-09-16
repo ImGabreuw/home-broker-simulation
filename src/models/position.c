@@ -2,8 +2,8 @@
 
 #include <string.h>
 
-#include "error_codes.h"
 #include "log.h"
+#include "error_codes.h"
 
 int create_position(Position *position, const char *asset_code, int shares) {
     if (asset_code == NULL || strlen(asset_code) >= MAX_ASSET_CODE_LENGTH) {

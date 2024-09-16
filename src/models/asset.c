@@ -2,18 +2,25 @@
 
 #include <string.h>
 
-int create_asset(Asset *asset, const char *code, const char *company_name, int market_volume) {
-    if (code == NULL || strlen(code) >= MAX_CODE_LENGTH) {
+#include "error_codes.h"
+#include "log.h"
+
+int create_asset(Asset *asset, const char *code, const char *company_name, int market_volume)
+{
+    if (code == NULL || strlen(code) >= MAX_CODE_LENGTH)
+    {
         log_message(LOG_WARNING, "Invalid asset code");
         return ERR_VALIDATION;
     }
 
-    if (company_name == NULL || strlen(company_name) >= MAX_COMPANY_NAME_LENGTH) {
+    if (company_name == NULL || strlen(company_name) >= MAX_COMPANY_NAME_LENGTH)
+    {
         log_message(LOG_WARNING, "Invalid company name");
         return ERR_VALIDATION;
     }
 
-    if (market_volume < 0) {
+    if (market_volume < 0)
+    {
         log_message(LOG_WARNING, "Market volume cannot be negative");
         return ERR_VALIDATION;
     }

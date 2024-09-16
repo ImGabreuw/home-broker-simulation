@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include "log.h"
+#include "error_codes.h"
 
 int create_transaction(Transaction *transaction, Order *selling_order, Order *buying_order, int shares, double price)
 {
