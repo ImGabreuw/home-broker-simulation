@@ -11,6 +11,10 @@
         "stock.h": "c",
         "system.h": "c",
         "position.h": "c",
-        "error_codes.h": "c"
+        "error_codes.h": "c",
+        "order.h": "c",
+        "time.h": "c",
+        "transaction.h": "c",
+        "asset.h": "c"
     }
 }

@@ -22,7 +22,7 @@ classDiagram
         - shares: int
         - pending_shares: int
         - price: double
-        - order_type: OrderType
+        - action: OrderAction
         - status: OrderStatus
         - transactions: Transaction*
 
