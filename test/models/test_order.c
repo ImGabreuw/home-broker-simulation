@@ -1,6 +1,7 @@
 #include "order.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "log.h"
 #include "test_utils.h"
@@ -12,14 +13,14 @@ void test_emit_order()
     pthread_t id = pthread_self();
 
     create_investor(&investor, id, "John Doe");
-    strncpy(asset.code, "AAPL", 5);
-    strncpy(asset.company_name, "Apple Inc.", 100);
+    strncpy(asset.code, "AAPL", MAX_ASSET_CODE_LENGTH);
+    strncpy(asset.company_name, "Apple Inc.", MAX_COMPANY_NAME_LENGTH);
     asset.market_volume = 100000;
 
     Order order;
     int result = emit_order(&order, 1, &investor, &asset, 100, 150.0, "BUY");
 
-    if (result == SUCCESS && order.shares == 100 && order.price == 150.0 && order.order_type == BUY)
+    if (result == SUCCESS && order.shares == 100 && order.price == 150.0 && order.action == BUY)
     {
         test_passed("test_emit_order");
     }
@@ -36,8 +37,8 @@ void test_emit_invalid_order()
     pthread_t id = pthread_self();
 
     create_investor(&investor, id, "John Doe");
-    strncpy(asset.code, "AAPL", 5);
-    strncpy(asset.company_name, "Apple Inc.", 100);
+    strncpy(asset.code, "AAPL", MAX_ASSET_CODE_LENGTH);
+    strncpy(asset.company_name, "Apple Inc.", MAX_COMPANY_NAME_LENGTH);
     asset.market_volume = 100000;
 
     Order order;
