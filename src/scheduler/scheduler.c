@@ -28,12 +28,12 @@ void *investor_lifecycle(void *arg)
             Position new_position = {.shares = shares};
             strncpy(new_position.asset_code, asset_code, 6);
             add_asset_position(investor, &new_position);
-            log_message(LOG_INFO, "Investor %s buys %d shares of stock %s\n", investor->name, shares, asset_code);
+            log_message(LOG_INFO, "Investor %s buys %d shares of stock %s", investor->name, shares, asset_code);
         }
         else
         {
             update_asset_position(investor, asset_code, 0);
-            log_message(LOG_INFO, "Investor %s sells all stocks of %s\n", investor->name, asset_code);
+            log_message(LOG_INFO, "Investor %s sells all stocks of %s", investor->name, asset_code);
         }
 
         // Dorme por tempo aleatório (simulação de intervalos variáveis)
@@ -51,7 +51,7 @@ void *scheduler_thread(void *arg)
 
         if (investor != NULL)
         {
-            log_message(LOG_INFO, "Escalonando investidor: %s\n", investor->name);
+            log_message(LOG_INFO, "Escalonando investidor: %s", investor->name);
             pthread_create(&investor->id, NULL, investor_lifecycle, (void *)investor);
             pthread_join(investor->id, NULL);
             enqueue_investor(&queue, investor);

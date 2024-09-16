@@ -10,7 +10,7 @@ int create_investor(Investor *investor, pthread_t id, const char *name)
 {
     if (name == NULL || strlen(name) >= MAX_NAME_LENGTH)
     {
-        log_message(LOG_WARNING, "Invalid name\n");
+        log_message(LOG_WARNING, "Invalid name");
         return ERR_VALIDATION;
     }
 
@@ -24,7 +24,7 @@ int create_investor(Investor *investor, pthread_t id, const char *name)
         investor->positions[i].asset_code[0] = '\0';
     }
 
-    log_message(LOG_INFO, "Investor created: ID: %lu, Name: %s\n", id, investor->name);
+    log_message(LOG_INFO, "Investor created: ID: %lu, Name: %s", id, investor->name);
     return SUCCESS;
 }
 
@@ -36,12 +36,12 @@ int add_asset_position(Investor *investor, Position *asset_position)
         {
             investor->positions[i] = *asset_position;
 
-            log_message(LOG_INFO, "Position added: Asset Code: %s, Shares: %d\n", asset_position->asset_code, asset_position->shares);
+            log_message(LOG_INFO, "Position added: Asset Code: %s, Shares: %d", asset_position->asset_code, asset_position->shares);
             return SUCCESS;
         }
     }
 
-    log_message(LOG_WARNING, "No available slot for new position\n");
+    log_message(LOG_WARNING, "No available slot for new position");
     return ERR_VALIDATION;
 }
 
@@ -49,13 +49,13 @@ int update_asset_position(Investor *investor, const char *asset_code, int shares
 {
     if (asset_code == NULL || strlen(asset_code) >= 6)
     {
-        log_message(LOG_WARNING, "Invalid asset code\n");
+        log_message(LOG_WARNING, "Invalid asset code");
         return ERR_VALIDATION;
     }
 
     if (shares < 0)
     {
-        log_message(LOG_WARNING, "Shares cannot be negative\n");
+        log_message(LOG_WARNING, "Shares cannot be negative");
         return ERR_VALIDATION;
     }
 
@@ -64,12 +64,12 @@ int update_asset_position(Investor *investor, const char *asset_code, int shares
         if (strcmp(investor->positions[i].asset_code, asset_code) == 0)
         {
             investor->positions[i].shares = shares;
-            log_message(LOG_INFO, "Position updated: Asset Code: %s, Shares: %d\n", asset_code, shares);
+            log_message(LOG_INFO, "Position updated: Asset Code: %s, Shares: %d", asset_code, shares);
             return SUCCESS;
         }
     }
 
-    log_message(LOG_WARNING, "Position with asset code %s not found\n", asset_code);
+    log_message(LOG_WARNING, "Position with asset code %s not found", asset_code);
     return ERR_NOT_FOUND;
 }
 
@@ -77,7 +77,7 @@ Position *get_asset_position(Investor *investor, const char *asset_code)
 {
     if (asset_code == NULL || strlen(asset_code) >= 6)
     {
-        log_message(LOG_WARNING, "Invalid asset code\n");
+        log_message(LOG_WARNING, "Invalid asset code");
         return NULL;
     }
 
@@ -89,6 +89,6 @@ Position *get_asset_position(Investor *investor, const char *asset_code)
         }
     }
 
-    log_message(LOG_WARNING, "Position with asset code %s not found\n", asset_code);
+    log_message(LOG_WARNING, "Position with asset code %s not found", asset_code);
     return NULL;
 }

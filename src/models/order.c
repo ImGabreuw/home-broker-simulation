@@ -9,13 +9,13 @@ int emit_order(Order *order, int id, Investor *investor, Asset *asset, int share
 {
     if (investor == NULL || asset == NULL)
     {
-        log_message(LOG_WARNING, "Investor or Asset cannot be NULL\n");
+        log_message(LOG_WARNING, "Investor or Asset cannot be NULL");
         return ERR_VALIDATION;
     }
 
     if (shares <= 0 || price <= 0.0)
     {
-        log_message(LOG_WARNING, "Shares and price must be greater than zero\n");
+        log_message(LOG_WARNING, "Shares and price must be greater than zero");
         return ERR_VALIDATION;
     }
 
@@ -29,7 +29,7 @@ int emit_order(Order *order, int id, Investor *investor, Asset *asset, int share
     }
     else
     {
-        log_message(LOG_WARNING, "Invalid order type\n");
+        log_message(LOG_WARNING, "Invalid order type");
         return ERR_VALIDATION;
     }
 
@@ -42,7 +42,7 @@ int emit_order(Order *order, int id, Investor *investor, Asset *asset, int share
     order->status = OPEN;
     order->transactions = NULL;
 
-    log_message(LOG_INFO, "Order created: ID: %d, Type: %s, Shares: %d, Price: %.2f\n",
+    log_message(LOG_INFO, "Order created: ID: %d, Type: %s, Shares: %d, Price: %.2f",
                 id, order_type_str, shares, price);
     return SUCCESS;
 }

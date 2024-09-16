@@ -16,7 +16,7 @@ void enqueue_investor(InvestorQueue *queue, Investor *investor)
 
     if (queue->count == MAX_INVESTORS)
     {
-        log_message(LOG_WARNING, "Investor queue is full!\n");
+        log_message(LOG_WARNING, "Investor queue is full!");
     }
     else
     {
@@ -35,7 +35,7 @@ Investor *dequeue_investor(InvestorQueue *queue)
     Investor *investor = NULL;
     if (queue->count == 0)
     {
-        log_message(LOG_WARNING, "Investor queue is empty!\n");
+        log_message(LOG_WARNING, "Investor queue is empty!");
     }
     else
     {

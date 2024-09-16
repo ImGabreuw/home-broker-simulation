@@ -1,0 +1,81 @@
+[2024-09-16 20:03:08] [INFO] [Thread 133521806677824] Investor created: ID: 133521806677824, Name: Valid Investor
+[2024-09-16 20:03:08] [WARNING] [Thread 133521806677824] Invalid name
+[2024-09-16 20:03:08] [INFO] [Thread 133521806677824] Investor created: ID: 133521806677824, Name: Investor for Queue Test
+[2024-09-16 20:03:08] [INFO] [Thread 133521806677824] Investor created: ID: 133521806677824, Name: Investor 1
+[2024-09-16 20:03:08] [INFO] [Thread 133521806677824] Investor created: ID: 133521806677824, Name: Investor 2
+[2024-09-16 20:03:08] [INFO] [Thread 133521806677824] Investor created: ID: 133521806677824, Name: Investor Lifecycle Test
+[2024-09-16 20:03:08] [INFO] [Thread 133521804887744] Position added: Asset Code: A903, Shares: 94
+[2024-09-16 20:03:08] [INFO] [Thread 133521804887744] Investor Investor Lifecycle Test buys 94 shares of stock A903
+[2024-09-16 20:03:09] [INFO] [Thread 133521804887744] Position added: Asset Code: A652, Shares: 4
+[2024-09-16 20:03:09] [INFO] [Thread 133521804887744] Investor Investor Lifecycle Test buys 4 shares of stock A652
+[2024-09-16 20:03:10] [INFO] [Thread 133521804887744] Position added: Asset Code: A72, Shares: 51
+[2024-09-16 20:03:10] [INFO] [Thread 133521804887744] Investor Investor Lifecycle Test buys 51 shares of stock A72
+[2024-09-16 20:03:12] [WARNING] [Thread 133521804887744] Position with asset code A649 not found
+[2024-09-16 20:03:12] [INFO] [Thread 133521804887744] Investor Investor Lifecycle Test sells all stocks of A649
+[2024-09-16 20:03:13] [INFO] [Thread 133521804887744] Position added: Asset Code: A729, Shares: 43
+[2024-09-16 20:03:13] [INFO] [Thread 133521804887744] Investor Investor Lifecycle Test buys 43 shares of stock A729
+[2024-09-16 20:03:15] [INFO] [Thread 133521806677824] Investor created: ID: 0, Name: Investor 1
+[2024-09-16 20:03:15] [INFO] [Thread 133521806677824] Investor created: ID: 133521806785688, Name: Investor 2
+[2024-09-16 20:03:15] [INFO] [Thread 133521806677824] Investor created: ID: 140728855666480, Name: Investor 3
+[2024-09-16 20:03:15] [INFO] [Thread 133521806677824] Investor created: ID: 206158430216, Name: Investor 4
+[2024-09-16 20:03:15] [INFO] [Thread 133521806677824] Investor created: ID: 0, Name: Investor 5
+[2024-09-16 20:03:15] [INFO] [Thread 133521806677824] Investor created: ID: 140728855667696, Name: Investor 6
+[2024-09-16 20:03:15] [INFO] [Thread 133521806677824] Investor created: ID: 133178345914371, Name: Investor 7
+[2024-09-16 20:03:15] [INFO] [Thread 133521806677824] Investor created: ID: 0, Name: Investor 8
+[2024-09-16 20:03:15] [INFO] [Thread 133521806677824] Investor created: ID: 140724603453440, Name: Investor 9
+[2024-09-16 20:03:15] [INFO] [Thread 133521806677824] Investor created: ID: 140724603453440, Name: Investor 10
+[2024-09-16 20:03:15] [INFO] [Thread 133521804887744] Escalonando investidor: Investor 1
+[2024-09-16 20:03:15] [WARNING] [Thread 133521794401984] Position with asset code A520 not found
+[2024-09-16 20:03:15] [INFO] [Thread 133521794401984] Investor Investor 1 sells all stocks of A520
+[2024-09-16 20:03:16] [INFO] [Thread 133521794401984] Position added: Asset Code: A541, Shares: 55
+[2024-09-16 20:03:16] [INFO] [Thread 133521794401984] Investor Investor 1 buys 55 shares of stock A541
+[2024-09-16 20:03:17] [WARNING] [Thread 133521794401984] Position with asset code A782 not found
+[2024-09-16 20:03:17] [INFO] [Thread 133521794401984] Investor Investor 1 sells all stocks of A782
+[2024-09-16 20:03:19] [WARNING] [Thread 133521794401984] Position with asset code A760 not found
+[2024-09-16 20:03:19] [INFO] [Thread 133521794401984] Investor Investor 1 sells all stocks of A760
+[2024-09-16 20:03:21] [WARNING] [Thread 133521794401984] Position with asset code A439 not found
+[2024-09-16 20:03:21] [INFO] [Thread 133521794401984] Investor Investor 1 sells all stocks of A439
+[2024-09-16 20:03:24] [INFO] [Thread 133521804887744] Escalonando investidor: Investor 2
+[2024-09-16 20:03:24] [INFO] [Thread 133521794401984] Position added: Asset Code: A271, Shares: 2
+[2024-09-16 20:03:24] [INFO] [Thread 133521794401984] Investor Investor 2 buys 2 shares of stock A271
+[2024-09-16 20:03:26] [WARNING] [Thread 133521794401984] Position with asset code A758 not found
+[2024-09-16 20:03:26] [INFO] [Thread 133521794401984] Investor Investor 2 sells all stocks of A758
+[2024-09-16 20:03:27] [INFO] [Thread 133521794401984] Position added: Asset Code: A641, Shares: 54
+[2024-09-16 20:03:27] [INFO] [Thread 133521794401984] Investor Investor 2 buys 54 shares of stock A641
+[2024-09-16 20:03:30] [WARNING] [Thread 133521794401984] Position with asset code A86 not found
+[2024-09-16 20:03:30] [INFO] [Thread 133521794401984] Investor Investor 2 sells all stocks of A86
+[2024-09-16 20:03:33] [INFO] [Thread 133521794401984] Position added: Asset Code: A359, Shares: 61
+[2024-09-16 20:03:33] [INFO] [Thread 133521794401984] Investor Investor 2 buys 61 shares of stock A359
+[2024-09-16 20:03:38] [INFO] [Thread 133521804887744] Escalonando investidor: Investor 3
+[2024-09-16 20:03:38] [WARNING] [Thread 133521794401984] Position with asset code A234 not found
+[2024-09-16 20:03:38] [INFO] [Thread 133521794401984] Investor Investor 3 sells all stocks of A234
+[2024-09-16 20:03:40] [WARNING] [Thread 133521794401984] Position with asset code A848 not found
+[2024-09-16 20:03:40] [INFO] [Thread 133521794401984] Investor Investor 3 sells all stocks of A848
+[2024-09-16 20:03:41] [INFO] [Thread 133521794401984] Position added: Asset Code: A5, Shares: 54
+[2024-09-16 20:03:41] [INFO] [Thread 133521794401984] Investor Investor 3 buys 54 shares of stock A5
+[2024-09-16 20:03:43] [WARNING] [Thread 133521794401984] Position with asset code A31 not found
+[2024-09-16 20:03:43] [INFO] [Thread 133521794401984] Investor Investor 3 sells all stocks of A31
+[2024-09-16 20:03:44] [INFO] [Thread 133521794401984] Position added: Asset Code: A495, Shares: 5
+[2024-09-16 20:03:44] [INFO] [Thread 133521794401984] Investor Investor 3 buys 5 shares of stock A495
+[2024-09-16 20:03:49] [INFO] [Thread 133521804887744] Escalonando investidor: Investor 4
+[2024-09-16 20:03:49] [INFO] [Thread 133521794401984] Position added: Asset Code: A951, Shares: 7
+[2024-09-16 20:03:49] [INFO] [Thread 133521794401984] Investor Investor 4 buys 7 shares of stock A951
+[2024-09-16 20:03:51] [INFO] [Thread 133521794401984] Position added: Asset Code: A484, Shares: 59
+[2024-09-16 20:03:51] [INFO] [Thread 133521794401984] Investor Investor 4 buys 59 shares of stock A484
+[2024-09-16 20:03:54] [WARNING] [Thread 133521794401984] Position with asset code A685 not found
+[2024-09-16 20:03:54] [INFO] [Thread 133521794401984] Investor Investor 4 sells all stocks of A685
+[2024-09-16 20:03:56] [WARNING] [Thread 133521794401984] Position with asset code A734 not found
+[2024-09-16 20:03:56] [INFO] [Thread 133521794401984] Investor Investor 4 sells all stocks of A734
+[2024-09-16 20:03:58] [WARNING] [Thread 133521794401984] Position with asset code A437 not found
+[2024-09-16 20:03:58] [INFO] [Thread 133521794401984] Investor Investor 4 sells all stocks of A437
+[2024-09-16 20:04:01] [INFO] [Thread 133521804887744] Escalonando investidor: Investor 5
+[2024-09-16 20:04:01] [INFO] [Thread 133521794401984] Position added: Asset Code: A659, Shares: 29
+[2024-09-16 20:04:01] [INFO] [Thread 133521794401984] Investor Investor 5 buys 29 shares of stock A659
+[2024-09-16 20:04:03] [INFO] [Thread 133521794401984] Position added: Asset Code: A226, Shares: 78
+[2024-09-16 20:04:03] [INFO] [Thread 133521794401984] Investor Investor 5 buys 78 shares of stock A226
+[2024-09-16 20:04:06] [INFO] [Thread 133521794401984] Position added: Asset Code: A817, Shares: 29
+[2024-09-16 20:04:06] [INFO] [Thread 133521794401984] Investor Investor 5 buys 29 shares of stock A817
+[2024-09-16 20:04:08] [WARNING] [Thread 133521794401984] Position with asset code A441 not found
+[2024-09-16 20:04:08] [INFO] [Thread 133521794401984] Investor Investor 5 sells all stocks of A441
+[2024-09-16 20:04:10] [INFO] [Thread 133521794401984] Position added: Asset Code: A478, Shares: 69
+[2024-09-16 20:04:10] [INFO] [Thread 133521794401984] Investor Investor 5 buys 69 shares of stock A478
