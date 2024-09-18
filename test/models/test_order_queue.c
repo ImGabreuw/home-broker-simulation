@@ -110,12 +110,13 @@ void test_queue_full()
     init_order_queue(&queue);
 
     Asset asset;
-    strcpy(asset.code, "A1");
-    strcpy(asset.company_name, "Test Company");
     asset.market_volume = 1000;
 
     for (int i = 0; i < MAX_ORDERS; i++)
     {
+        sprintf(asset.code, "A%d", i); 
+        sprintf(asset.company_name, "Company %d", i);
+
         Order order;
         order.asset = &asset;
         order.action = BUY;
@@ -138,7 +139,7 @@ void test_queue_full()
     extra_order.pending_shares = 150;
     enqueue_order(&queue, &extra_order);
 
-    if (size(&queue) == 2)
+    if (size(&queue) == MAX_ORDERS)
     {
         test_passed("test_queue_full");
     }
