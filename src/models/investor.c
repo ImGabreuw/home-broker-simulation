@@ -92,3 +92,16 @@ Position *get_asset_position(Investor *investor, const char *asset_code)
     log_message(LOG_WARNING, "Position with asset code %s not found", asset_code);
     return NULL;
 }
+
+int get_position_index(Investor *investor, char asset_code[MAX_ASSET_CODE_LENGTH])
+{
+    for (int i = 0; i < 10; i++)
+    {
+        if (investor->positions[i].asset_code == asset_code)
+        {
+            return i;
+        }
+    }
+
+    return ERR_NOT_FOUND;
+}

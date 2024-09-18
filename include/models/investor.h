@@ -23,4 +23,6 @@ int update_asset_position(Investor *investor, const char *asset_code, int shares
 
 Position *get_asset_position(Investor *investor, const char *asset_code);
 
+int get_position_index(Investor *investor, char asset_code[MAX_ASSET_CODE_LENGTH]);
+
 #endif // INVESTOR_H
