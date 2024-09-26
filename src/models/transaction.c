@@ -49,14 +49,20 @@ void close_sell_order(Transaction *transaction)
     log_message(LOG_INFO, "Sell order closed: Order ID: %d", transaction->selling_order->id);
 }
 
-void add_buy_order_pending_shares(Transaction *transaction, int shares)
-{
+void add_buy_order_pending_shares(Transaction *transaction, int shares) {
+    if (transaction->buying_order->pending_shares + shares < 0) {
+        log_message(LOG_WARNING, "Shares cannot be negative for buying order ID: %d", transaction->buying_order->id);
+        return;
+    }
+
     transaction->buying_order->pending_shares += shares;
-    log_message(LOG_INFO, "Added %d shares to pending shares for buying order ID: %d", shares, transaction->buying_order->id);
 }
 
-void add_sell_order_pending_shares(Transaction *transaction, int shares)
-{
+void add_sell_order_pending_shares(Transaction *transaction, int shares) {
+    if (transaction->selling_order->pending_shares + shares < 0) {
+        log_message(LOG_WARNING, "Shares cannot be negative for selling order ID: %d", transaction->selling_order->id);
+        return;
+    }
+    
     transaction->selling_order->pending_shares += shares;
-    log_message(LOG_INFO, "Added %d shares to pending shares for selling order ID: %d", shares, transaction->selling_order->id);
 }
