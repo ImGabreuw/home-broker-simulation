@@ -47,3 +47,15 @@ int emit_order(Order *order, int id, Investor *investor, Asset *asset, int share
                 id, order_type_str, shares, price);
     return SUCCESS;
 }
+
+void get_action_name(Order *order, char *action_name)
+{
+    if (order->action == 0)
+    {
+        strcpy(action_name, "BUY");
+    }
+    else
+    {
+        strcpy(action_name, "SELL");
+    }
+}

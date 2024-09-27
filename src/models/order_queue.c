@@ -18,7 +18,6 @@ int init_order_queue(OrderQueue *queue)
     queue->back = -1;
     queue->count = 0;
 
-    log_message(LOG_INFO, "Queue initialized");
     return SUCCESS;
 }
 
@@ -40,7 +39,10 @@ int enqueue_order(OrderQueue *queue, Order *order)
     queue->orders[queue->back] = *order;
     queue->count++;
 
-    log_message(LOG_INFO, "Order enqueued: Asset Code = %s", order->asset->code);
+    char action_name[5];
+    get_action_name(order, action_name);
+    log_message(LOG_INFO, "Enqueue %s order for asset code = %s", action_name, order->asset->code);
+    
     return SUCCESS;
 }
 
@@ -62,7 +64,10 @@ int dequeue_order(OrderQueue *queue, Order *order)
     queue->front = (queue->front + 1) % MAX_ORDERS;
     queue->count--;
 
-    log_message(LOG_INFO, "Order dequeued: Asset Code = %s", order->asset->code);
+    char action_name[5];
+    get_action_name(order, action_name);
+    log_message(LOG_INFO, "Dequeued %s order for asset code = %s", action_name, order->asset->code);
+
     return SUCCESS;
 }
 

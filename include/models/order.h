@@ -36,4 +36,6 @@ struct Order
 
 int emit_order(Order *order, int id, Investor *investor, Asset *asset, int shares, double price, const char *order_type_str);
 
+void get_action_name(Order *order, char *action_name);
+
 #endif // ORDER_H

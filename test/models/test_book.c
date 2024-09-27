@@ -13,24 +13,19 @@
 void test_trade_matching_orders()
 {
     Book book;
-    OrderQueue input_queue, output_queue;
+    OrderQueue in, out;
     Waitgroup wg;
 
-    // Inicializa as filas de pedidos
-    init_order_queue(&input_queue);
-    init_order_queue(&output_queue);
-
-    // Inicializa o waitgroup
     if (init_waitgroup(&wg) != 0)
     {
         log_message(LOG_ERROR, "Failed to initialize waitgroup.");
         return;
     }
 
-    init_book(&book, &input_queue, &output_queue, &wg);
+    init_book(&book, &in, &out, &wg);
 
     Asset asset;
-    create_asset(&asset, "A1234", "Example Company", 10000);
+    create_asset(&asset, "VALE3", "VALE S.A.", 10000);
 
     Order buy_order, sell_order;
     buy_order.asset = &asset;
@@ -45,14 +40,13 @@ void test_trade_matching_orders()
     sell_order.price = 50.0;
     sell_order.pending_shares = 100;
 
-    enqueue_order(&input_queue, &buy_order);
-    enqueue_order(&input_queue, &sell_order);
-
-    // Sinaliza o WaitGroup para que a função trade possa ser chamada
+    enqueue_order(&in, &buy_order);
+    enqueue_order(&in, &sell_order);
     done_waitgroup(&wg);
+
     trade(&book);
 
-    if (size(&output_queue) == 2)
+    if (size(&out) == 2)
     {
         test_passed("test_trade_matching_orders");
     }
@@ -65,24 +59,19 @@ void test_trade_matching_orders()
 void test_partial_shares()
 {
     Book book;
-    OrderQueue input_queue, output_queue;
+    OrderQueue in, out;
     Waitgroup wg;
 
-    // Inicializa as filas de pedidos
-    init_order_queue(&input_queue);
-    init_order_queue(&output_queue);
-
-    // Inicializa o waitgroup
     if (init_waitgroup(&wg) != 0)
     {
         log_message(LOG_ERROR, "Failed to initialize waitgroup.");
         return;
     }
 
-    init_book(&book, &input_queue, &output_queue, &wg);
+    init_book(&book, &in, &out, &wg);
 
     Asset asset;
-    int result = create_asset(&asset, "A1234", "Example Company", 10000);
+    int result = create_asset(&asset, "VALE3", "VALE S.A.", 10000);
 
     if (result == ERR_VALIDATION)
     {
@@ -103,8 +92,8 @@ void test_partial_shares()
     sell_order.price = 50.0;
     sell_order.pending_shares = 100;
 
-    enqueue_order(&input_queue, &buy_order);
-    enqueue_order(&input_queue, &sell_order);
+    enqueue_order(&in, &buy_order);
+    enqueue_order(&in, &sell_order);
 
     done_waitgroup(&wg);
     trade(&book);

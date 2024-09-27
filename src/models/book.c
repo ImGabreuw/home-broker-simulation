@@ -10,8 +10,8 @@ void init_book(Book *book, OrderQueue *in, OrderQueue *out, Waitgroup *wg)
     book->orders_channel_out = out;
     book->wg = wg;
 
-    memset(book->orders, 0, sizeof(book->orders));
-    memset(book->transactions, 0, sizeof(book->transactions));
+    init_order_queue(in);
+    init_order_queue(out);
 
     log_message(LOG_INFO, "Initialized book with input and output order channels.");
 }
