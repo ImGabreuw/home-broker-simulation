@@ -4,11 +4,13 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "error_codes.h"
+
 int init_waitgroup(Waitgroup *wg)
 {
     if (wg == NULL)
     {
-        return -1; // Erro: ponteiro nulo
+        return ERR_MEMORY_ALLOCATION;
     }
 
     wg->waitGroupSize = 0;
@@ -16,10 +18,10 @@ int init_waitgroup(Waitgroup *wg)
     int ok = pthread_mutex_init(&(wg->mutex), NULL);
     if (ok != 0)
     {
-        return -1; // Erro ao inicializar mutex
+        return ERR_MEMORY_ALLOCATION;
     }
 
-    return 0; // Sucesso
+    return SUCCESS;
 }
 
 void add_waitgroup(Waitgroup *wg, int size)
@@ -59,7 +61,7 @@ void wait_waitgroup(Waitgroup *wg)
         if (wg->waitGroupSize <= 0)
         {
             pthread_mutex_unlock(&(wg->mutex));
-            break; 
+            break;
         }
         pthread_mutex_unlock(&(wg->mutex));
         usleep(100);
