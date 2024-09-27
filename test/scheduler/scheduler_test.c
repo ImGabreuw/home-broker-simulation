@@ -121,7 +121,7 @@ void test_scheduler()
 
 int main()
 {
-    log_init("log.txt");
+    log_init("log_scheduler_test.txt");
 
     test_create_investor_valid();
     test_create_investor_invalid_name();

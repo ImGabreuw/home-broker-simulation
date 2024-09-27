@@ -14,26 +14,26 @@ InvestorQueue queue;
 void *investor_lifecycle(void *arg)
 {
     Investor *investor = (Investor *)arg;
-    srand(time(NULL) ^ (investor->id)); // Geração de operações aleatórias por investidor
+    srand(time(NULL) ^ (investor->id));
 
     for (int i = 0; i < MAX_OPERATIONS; i++)
     {
         int random_action = rand() % 2; // 0 = compra, 1 = venda
         int shares = (rand() % 100) + 1;
+
         char asset_code[6];
-        snprintf(asset_code, 6, "A%d", rand() % 1000); // Geração de código de ativo aleatório
+        int random_asset = rand() % NUM_ASSETS;
+        snprintf(asset_code, 6, "%s", ASSETS[random_asset]);
 
         if (random_action == 0)
         {
             Position new_position = {.shares = shares};
             strncpy(new_position.asset_code, asset_code, 6);
             add_asset_position(investor, &new_position);
-            log_message(LOG_INFO, "Investor %s buys %d shares of stock %s", investor->name, shares, asset_code);
         }
         else
         {
             update_asset_position(investor, asset_code, 0);
-            log_message(LOG_INFO, "Investor %s sells all stocks of %s", investor->name, asset_code);
         }
 
         // Dorme por tempo aleatório (simulação de intervalos variáveis)

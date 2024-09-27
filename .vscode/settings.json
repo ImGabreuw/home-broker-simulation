@@ -23,6 +23,7 @@
         "chrono": "c",
         "functional": "c",
         "system_error": "c",
-        "order_queue.h": "c"
+        "order_queue.h": "c",
+        "scheduler.h": "c"
     }
 }
