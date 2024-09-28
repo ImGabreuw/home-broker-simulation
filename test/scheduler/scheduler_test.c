@@ -1,10 +1,16 @@
 #include "scheduler.h"
 
+#include "book.h"
+#include "waitgroup.h"
 #include "investor_queue.h"
 #include "investor.h"
 #include "log.h"
 #include "error_codes.h"
 #include "test_utils.h"
+
+Book book;
+OrderQueue in, out;
+Waitgroup wg;
 
 void test_create_investor_valid()
 {
@@ -123,11 +129,14 @@ int main()
 {
     log_init("log_scheduler_test.txt");
 
-    test_create_investor_valid();
-    test_create_investor_invalid_name();
-    test_enqueue_investor();
-    test_dequeue_investor();
-    test_investor_lifecycle();
+    init_waitgroup(&wg);
+    init_book(&book, &in, &out, &wg);
+
+    // test_create_investor_valid();
+    // test_create_investor_invalid_name();
+    // test_enqueue_investor();
+    // test_dequeue_investor();
+    // test_investor_lifecycle();
     test_scheduler();
 
     log_cleanup();

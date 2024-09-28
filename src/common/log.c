@@ -4,6 +4,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
+#include <pthread.h>
 
 static FILE *log_file = NULL;
 
@@ -33,6 +34,8 @@ void log_init(const char *filename)
         perror("Não foi possível abrir o arquivo de log");
         exit(EXIT_FAILURE);
     }
+
+    pthread_mutex_init(&log_mutex, NULL);
 }
 
 void log_message(LogLevel level, const char *format, ...)
@@ -43,6 +46,9 @@ void log_message(LogLevel level, const char *format, ...)
     }
 
     const char *level_strings[] = {"INFO", "WARNING", "ERROR"};
+
+    pthread_mutex_lock(&log_mutex);
+
     va_list args;
     va_start(args, format);
 
@@ -52,6 +58,8 @@ void log_message(LogLevel level, const char *format, ...)
 
     va_end(args);
     fflush(log_file);
+
+    pthread_mutex_unlock(&log_mutex);
 }
 
 void log_cleanup()
@@ -61,4 +69,6 @@ void log_cleanup()
         fclose(log_file);
         log_file = NULL;
     }
+
+    pthread_mutex_destroy(&log_mutex);
 }

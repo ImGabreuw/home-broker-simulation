@@ -13,17 +13,7 @@
 #include "error_codes.h"
 #include "book.h"
 
-static const char *ASSETS[NUM_ASSETS] = {
-    "PETR4",
-    "VALE3",
-    "ITUB4",
-    "BBDC4",
-    "ABEV3",
-    "BBAS3",
-    "WEGE3",
-    "RENT3",
-    "LREN3",
-    "GGBR4"};
+static const char *ASSETS[NUM_ASSETS] = {"PETR4", "VALE3", "ITUB4", "BBDC4", "ABEV3", "BBAS3", "WEGE3", "RENT3", "LREN3", "GGBR4"};
 
 InvestorQueue queue;
 
@@ -63,12 +53,15 @@ void *investor_lifecycle(void *arg)
             add_asset_position(investor, &new_position);
         }
 
+        // Adiciona no wait group antes de emitir a ordem
         add_waitgroup(book.wg, 1);
         int result = emit_order(&order, i, investor, &asset, shares, 100.0, order_type_str);
         if (result == SUCCESS)
         {
             enqueue_order(book.orders_channel_in, &order);
         }
+
+        // Marca a operação como finalizada no wait group
         done_waitgroup(book.wg);
 
         sleep((rand() % 3) + 1);
@@ -93,6 +86,7 @@ void *scheduler_thread(void *arg)
         sleep(INVESTOR_LIFETIME);
     }
 
+    // Espera até que todas as threads de investidores terminem
     wait_waitgroup(book.wg);
     pthread_exit(NULL);
 }
@@ -109,5 +103,6 @@ void simulate_investor_scheduling(Investor *investors, int num_investors)
     pthread_t scheduler;
     pthread_create(&scheduler, NULL, scheduler_thread, NULL);
     pthread_join(scheduler, NULL);
+
     destroy_waitgroup(book.wg);
 }
