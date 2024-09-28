@@ -1,0 +1,217 @@
+[2024-09-28 14:17:02] [INFO] [Thread 128981595494208] Home Breaker started...
+[2024-09-28 14:17:02] [INFO] [Thread 128981595494208] Initialized book with input and output order channels.
+[2024-09-28 14:17:02] [INFO] [Thread 128981595494208] Investor created: ID: 128981595494208, Name: Alice
+[2024-09-28 14:17:02] [INFO] [Thread 128981595494208] Investor created: ID: 128981595494209, Name: Bob
+[2024-09-28 14:17:02] [INFO] [Thread 128981594539712] Buy and sell order queues initialized.
+[2024-09-28 14:17:02] [WARNING] [Thread 128981594539712] Queue is empty
+[2024-09-28 14:17:02] [INFO] [Thread 128981595494208] Investor created: ID: 128981595494210, Name: Charlie
+[2024-09-28 14:17:02] [INFO] [Thread 128981595494208] Investor created: ID: 128981595494211, Name: David
+[2024-09-28 14:17:02] [INFO] [Thread 128981595494208] Investor created: ID: 128981595494212, Name: Eve
+[2024-09-28 14:17:02] [INFO] [Thread 128981584053952] Escalonando investidor: Alice
+[2024-09-28 14:17:02] [INFO] [Thread 128981573568192] Asset created: Code: ABEV3, Company: ABEV3 S.A., Market Volume: 8100
+[2024-09-28 14:17:02] [INFO] [Thread 128981573568192] Position added: Asset Code: ABEV3, Shares: 90
+[2024-09-28 14:17:02] [INFO] [Thread 128981573568192] Order created: ID: 0, Type: SELL, Shares: 90, Price: 100.00
+[2024-09-28 14:17:03] [INFO] [Thread 128981573568192] Asset created: Code: ABEV3, Company: ABEV3 S.A., Market Volume: 4
+[2024-09-28 14:17:03] [INFO] [Thread 128981573568192] Position added: Asset Code: ABEV3, Shares: 2
+[2024-09-28 14:17:03] [INFO] [Thread 128981573568192] Order created: ID: 1, Type: SELL, Shares: 2, Price: 100.00
+[2024-09-28 14:17:04] [WARNING] [Thread 128981594539712] No order received. Continuing to next iteration.
+[2024-09-28 14:17:04] [INFO] [Thread 128981594539712] Dequeued SELL order for asset code = ABEV3
+[2024-09-28 14:17:04] [INFO] [Thread 128981594539712] Processing order: SELL ABEV3 90 shares at price 100.00
+[2024-09-28 14:17:04] [INFO] [Thread 128981594539712] Sell order added to queue: ABEV3
+[2024-09-28 14:17:04] [INFO] [Thread 128981594539712] Order processed, wait group updated.
+[2024-09-28 14:17:04] [INFO] [Thread 128981584053952] Escalonando investidor: Bob
+[2024-09-28 14:17:04] [INFO] [Thread 128981594539712] Dequeued SELL order for asset code = ABEV3
+[2024-09-28 14:17:04] [INFO] [Thread 128981594539712] Processing order: SELL ABEV3 2 shares at price 100.00
+[2024-09-28 14:17:04] [INFO] [Thread 128981594539712] Sell order added to queue: ABEV3
+[2024-09-28 14:17:04] [INFO] [Thread 128981594539712] Order processed, wait group updated.
+[2024-09-28 14:17:04] [WARNING] [Thread 128981594539712] Queue is empty
+[2024-09-28 14:17:04] [INFO] [Thread 128981489682112] Asset created: Code: RENT3, Company: RENT3 S.A., Market Volume: 5776
+[2024-09-28 14:17:04] [INFO] [Thread 128981489682112] Position added: Asset Code: RENT3, Shares: 76
+[2024-09-28 14:17:04] [INFO] [Thread 128981489682112] Order created: ID: 0, Type: SELL, Shares: 76, Price: 100.00
+[2024-09-28 14:17:04] [INFO] [Thread 128981573568192] Asset created: Code: BBDC4, Company: BBDC4 S.A., Market Volume: 8649
+[2024-09-28 14:17:04] [INFO] [Thread 128981573568192] Order created: ID: 2, Type: BUY, Shares: 93, Price: 100.00
+[2024-09-28 14:17:05] [INFO] [Thread 128981489682112] Asset created: Code: GGBR4, Company: GGBR4 S.A., Market Volume: 25
+[2024-09-28 14:17:05] [INFO] [Thread 128981489682112] Order created: ID: 1, Type: BUY, Shares: 5, Price: 100.00
+[2024-09-28 14:17:05] [INFO] [Thread 128981573568192] Asset created: Code: BBAS3, Company: BBAS3 S.A., Market Volume: 2209
+[2024-09-28 14:17:05] [INFO] [Thread 128981573568192] Position added: Asset Code: BBAS3, Shares: 47
+[2024-09-28 14:17:05] [INFO] [Thread 128981573568192] Order created: ID: 3, Type: SELL, Shares: 47, Price: 100.00
+[2024-09-28 14:17:06] [WARNING] [Thread 128981594539712] No order received. Continuing to next iteration.
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Dequeued SELL order for asset code = GGBR4
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Processing order: SELL GGBR4 76 shares at price 100.00
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Sell order added to queue: GGBR4
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Order processed, wait group updated.
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Dequeued BUY order for asset code = BBAS3
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Processing order: BUY BBAS3 93 shares at price 100.00
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Buy order added to queue: BBAS3
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Dequeued SELL order for asset code = BBAS3
+[2024-09-28 14:17:06] [INFO] [Thread 128981584053952] Escalonando investidor: Charlie
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Transaction created: Selling Order ID: 2, Buying Order ID: 0, Shares: 93, Price: 100.00, Total: 9300.00
+[2024-09-28 14:17:06] [WARNING] [Thread 128981594539712] Transaction canceled: seller does not have enough shares.
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Re-queued remaining shares for matched order.
+[2024-09-28 14:17:06] [INFO] [Thread 128981489682112] Asset created: Code: LREN3, Company: LREN3 S.A., Market Volume: 841
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Order processed, wait group updated.
+[2024-09-28 14:17:06] [INFO] [Thread 128981479196352] Asset created: Code: ITUB4, Company: ITUB4 S.A., Market Volume: 2116
+[2024-09-28 14:17:06] [INFO] [Thread 128981489682112] [2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Order created: ID: 2, Type: BUY, Shares: 29, Price: 100.00
+[2024-09-28 14:17:06] [INFO] [Thread 128981479196352] Position added: Asset Code: ITUB4, Shares: 46
+Dequeued BUY order for asset code = LREN3
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Processing order: BUY LREN3 5 shares at price 100.00
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Buy order added to queue: LREN3
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] [2024-09-28 14:17:06] [INFO] [Thread 128981479196352] Order created: ID: 0, Type: SELL, Shares: 46, Price: 100.00
+Dequeued SELL order for asset code = BBAS3
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Transaction created: Selling Order ID: 1, Buying Order ID: 1, Shares: 5, Price: 100.00, Total: 500.00
+[2024-09-28 14:17:06] [WARNING] [Thread 128981594539712] Investor 'Bob': Position with asset code LREN3 not found
+[2024-09-28 14:17:06] [WARNING] [Thread 128981594539712] Transaction canceled: seller does not have enough shares.
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Re-queued remaining shares for matched order.
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Order processed, wait group updated.
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Dequeued SELL order for asset code = BBAS3
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Processing order: SELL BBAS3 47 shares at price 100.00
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Sell order added to queue: BBAS3
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Dequeued BUY order for asset code = BBAS3
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Transaction created: Selling Order ID: 3, Buying Order ID: 2, Shares: 47, Price: 100.00, Total: 4700.00
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Position updated: Asset Code: BBAS3, Shares: 0
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Position updated: Asset Code: BBAS3, Shares: 47
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Transaction executed and positions updated.
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Transaction stored at index 0.
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Re-queued remaining shares for matched order.
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Order processed, wait group updated.
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Dequeued BUY order for asset code = LREN3
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Processing order: BUY LREN3 29 shares at price 100.00
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Buy order added to queue: LREN3
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Dequeued SELL order for asset code = LREN3
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Transaction created: Selling Order ID: 2, Buying Order ID: 0, Shares: 29, Price: 100.00, Total: 2900.00
+[2024-09-28 14:17:06] [WARNING] [Thread 128981594539712] Investor 'Bob': Position with asset code LREN3 not found
+[2024-09-28 14:17:06] [WARNING] [Thread 128981594539712] Investor 'Bob': Position with asset code LREN3 not found
+[2024-09-28 14:17:06] [WARNING] [Thread 128981594539712] Transaction canceled: seller does not have enough shares.
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Re-queued remaining shares for matched order.
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Order processed, wait group updated.
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Dequeued SELL order for asset code = ITUB4
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Processing order: SELL ITUB4 46 shares at price 100.00
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Sell order added to queue: ITUB4
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Dequeued BUY order for asset code = LREN3
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Transaction created: Selling Order ID: 0, Buying Order ID: 1, Shares: 46, Price: 100.00, Total: 4600.00
+[2024-09-28 14:17:06] [WARNING] [Thread 128981594539712] Investor 'Bob': Position with asset code LREN3 not found
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Position updated: Asset Code: ITUB4, Shares: 0
+[2024-09-28 14:17:06] [WARNING] [Thread 128981594539712] Position with asset code LREN3 not found
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Transaction executed and positions updated.
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Transaction stored at index 1.
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Re-queued remaining shares for matched order.
+[2024-09-28 14:17:06] [INFO] [Thread 128981594539712] Order processed, wait group updated.
+[2024-09-28 14:17:06] [WARNING] [Thread 128981594539712] Queue is empty
+[2024-09-28 14:17:08] [INFO] [Thread 128981573568192] Asset created: Code: WEGE3, Company: WEGE3 S.A., Market Volume: 9
+[2024-09-28 14:17:08] [INFO] [Thread 128981573568192] Order created: ID: 4, Type: BUY, Shares: 3, Price: 100.00
+[2024-09-28 14:17:08] [INFO] [Thread 128981489682112] Asset created: Code: ITUB4, Company: ITUB4 S.A., Market Volume: 5329
+[2024-09-28 14:17:08] [INFO] [Thread 128981489682112] Order created: ID: 3, Type: BUY, Shares: 73, Price: 100.00
+[2024-09-28 14:17:08] [INFO] [Thread 128981584053952] Escalonando investidor: David
+[2024-09-28 14:17:08] [INFO] [Thread 128981468710592] Asset created: Code: PETR4, Company: PETR4 S.A., Market Volume: 9025
+[2024-09-28 14:17:08] [INFO] [Thread 128981468710592] Position added: Asset Code: PETR4, Shares: 95
+[2024-09-28 14:17:08] [INFO] [Thread 128981468710592] Order created: ID: 0, Type: SELL, Shares: 95, Price: 100.00
+[2024-09-28 14:17:08] [WARNING] [Thread 128981594539712] No order received. Continuing to next iteration.
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Dequeued BUY order for asset code = WEGE3
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Processing order: BUY WEGE3 3 shares at price 100.00
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Buy order added to queue: WEGE3
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Dequeued SELL order for asset code = WEGE3
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Transaction created: Selling Order ID: 4, Buying Order ID: 0, Shares: 3, Price: 100.00, Total: 300.00
+[2024-09-28 14:17:08] [WARNING] [Thread 128981594539712] Investor 'Alice': Position with asset code WEGE3 not found
+[2024-09-28 14:17:08] [WARNING] [Thread 128981594539712] Investor 'Alice': Position with asset code WEGE3 not found
+[2024-09-28 14:17:08] [WARNING] [Thread 128981594539712] Transaction canceled: seller does not have enough shares.
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Re-queued remaining shares for matched order.
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Order processed, wait group updated.
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Dequeued BUY order for asset code = ITUB4
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Processing order: BUY ITUB4 73 shares at price 100.00
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Buy order added to queue: ITUB4
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Dequeued SELL order for asset code = WEGE3
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Transaction created: Selling Order ID: 3, Buying Order ID: 1, Shares: 73, Price: 100.00, Total: 7300.00
+[2024-09-28 14:17:08] [WARNING] [Thread 128981594539712] Investor 'Bob': Position with asset code ITUB4 not found
+[2024-09-28 14:17:08] [WARNING] [Thread 128981594539712] Investor 'Alice': Position with asset code WEGE3 not found
+[2024-09-28 14:17:08] [WARNING] [Thread 128981594539712] Transaction canceled: seller does not have enough shares.
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Re-queued remaining shares for matched order.
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Order processed, wait group updated.
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Dequeued SELL order for asset code = PETR4
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Processing order: SELL PETR4 95 shares at price 100.00
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Sell order added to queue: PETR4
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Dequeued BUY order for asset code = WEGE3
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Transaction created: Selling Order ID: 0, Buying Order ID: 2, Shares: 95, Price: 100.00, Total: 9500.00
+[2024-09-28 14:17:08] [WARNING] [Thread 128981594539712] Investor 'Alice': Position with asset code WEGE3 not found
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Position updated: Asset Code: PETR4, Shares: 0
+[2024-09-28 14:17:08] [WARNING] [Thread 128981594539712] Position with asset code WEGE3 not found
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Transaction executed and positions updated.
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Transaction stored at index 2.
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Re-queued remaining shares for matched order.
+[2024-09-28 14:17:08] [INFO] [Thread 128981594539712] Order processed, wait group updated.
+[2024-09-28 14:17:08] [WARNING] [Thread 128981594539712] Queue is empty
+[2024-09-28 14:17:09] [INFO] [Thread 128981479196352] Asset created: Code: WEGE3, Company: WEGE3 S.A., Market Volume: 441
+[2024-09-28 14:17:09] [INFO] [Thread 128981479196352] Order created: ID: 1, Type: BUY, Shares: 21, Price: 100.00
+[2024-09-28 14:17:09] [INFO] [Thread 128981468710592] Asset created: Code: ABEV3, Company: ABEV3 S.A., Market Volume: 289
+[2024-09-28 14:17:09] [INFO] [Thread 128981468710592] Position added: Asset Code: ABEV3, Shares: 17
+[2024-09-28 14:17:09] [INFO] [Thread 128981468710592] Order created: ID: 1, Type: SELL, Shares: 17, Price: 100.00
+[2024-09-28 14:17:10] [INFO] [Thread 128981489682112] Asset created: Code: WEGE3, Company: WEGE3 S.A., Market Volume: 25
+[2024-09-28 14:17:10] [INFO] [Thread 128981489682112] Position added: Asset Code: WEGE3, Shares: 5
+[2024-09-28 14:17:10] [INFO] [Thread 128981489682112] Order created: ID: 4, Type: SELL, Shares: 5, Price: 100.00
+[2024-09-28 14:17:10] [INFO] [Thread 128981584053952] Escalonando investidor: Eve
+[2024-09-28 14:17:10] [INFO] [Thread 128981479196352] Asset created: Code: PETR4, Company: PETR4 S.A., Market Volume: 1024
+[2024-09-28 14:17:10] [INFO] [Thread 128981479196352] Position added: Asset Code: PETR4, Shares: 32
+[2024-09-28 14:17:10] [INFO] [Thread 128981479196352] Order created: ID: 2, Type: SELL, Shares: 32, Price: 100.00
+[2024-09-28 14:17:10] [INFO] [Thread 128981458224832] Asset created: Code: GGBR4, Company: GGBR4 S.A., Market Volume: 196
+[2024-09-28 14:17:10] [INFO] [Thread 128981458224832] Position added: Asset Code: GGBR4, Shares: 14
+[2024-09-28 14:17:10] [INFO] [Thread 128981458224832] Order created: ID: 0, Type: SELL, Shares: 14, Price: 100.00
+[2024-09-28 14:17:10] [WARNING] [Thread 128981594539712] No order received. Continuing to next iteration.
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Dequeued BUY order for asset code = PETR4
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Processing order: BUY PETR4 21 shares at price 100.00
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Buy order added to queue: PETR4
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Dequeued SELL order for asset code = WEGE3
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Transaction created: Selling Order ID: 1, Buying Order ID: 3, Shares: 21, Price: 100.00, Total: 2100.00
+[2024-09-28 14:17:10] [WARNING] [Thread 128981594539712] Investor 'Alice': Position with asset code WEGE3 not found
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Position updated: Asset Code: PETR4, Shares: 11
+[2024-09-28 14:17:10] [WARNING] [Thread 128981594539712] Position with asset code WEGE3 not found
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Transaction executed and positions updated.
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Transaction stored at index 3.
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Re-queued remaining shares for matched order.
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Order processed, wait group updated.
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Dequeued SELL order for asset code = ABEV3
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Processing order: SELL ABEV3 17 shares at price 100.00
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Sell order added to queue: ABEV3
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Dequeued BUY order for asset code = WEGE3
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Transaction created: Selling Order ID: 1, Buying Order ID: 2, Shares: 17, Price: 100.00, Total: 1700.00
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Position updated: Asset Code: ABEV3, Shares: 0
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Position updated: Asset Code: WEGE3, Shares: 22
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Transaction executed and positions updated.
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Transaction stored at index 4.
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Re-queued remaining shares for matched order.
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Order processed, wait group updated.
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Dequeued SELL order for asset code = WEGE3
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Processing order: SELL WEGE3 5 shares at price 100.00
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Sell order added to queue: WEGE3
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Dequeued BUY order for asset code = WEGE3
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Transaction created: Selling Order ID: 4, Buying Order ID: 1, Shares: 5, Price: 100.00, Total: 500.00
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Position updated: Asset Code: WEGE3, Shares: 17
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Position updated: Asset Code: WEGE3, Shares: 22
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Transaction executed and positions updated.
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Transaction stored at index 5.
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Re-queued remaining shares for matched order.
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Order processed, wait group updated.
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Dequeued SELL order for asset code = PETR4
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Processing order: SELL PETR4 32 shares at price 100.00
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Sell order added to queue: PETR4
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Dequeued BUY order for asset code = WEGE3
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Transaction created: Selling Order ID: 2, Buying Order ID: 4, Shares: 32, Price: 100.00, Total: 3200.00
+[2024-09-28 14:17:10] [WARNING] [Thread 128981594539712] Investor 'Alice': Position with asset code WEGE3 not found
+[2024-09-28 14:17:10] [WARNING] [Thread 128981594539712] Transaction canceled: seller does not have enough shares.
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Re-queued remaining shares for matched order.
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Order processed, wait group updated.
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Dequeued SELL order for asset code = GGBR4
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Processing order: SELL GGBR4 14 shares at price 100.00
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Sell order added to queue: GGBR4
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Dequeued BUY order for asset code = WEGE3
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Transaction created: Selling Order ID: 0, Buying Order ID: 3, Shares: 14, Price: 100.00, Total: 1400.00
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Position updated: Asset Code: GGBR4, Shares: 0
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Position updated: Asset Code: WEGE3, Shares: 36
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Transaction executed and positions updated.
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Transaction stored at index 6.
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Re-queued remaining shares for matched order.
+[2024-09-28 14:17:10] [INFO] [Thread 128981594539712] Order processed, wait group updated.
+[2024-09-28 14:17:10] [WARNING] [Thread 128981594539712] Queue is empty
+[2024-09-28 14:17:11] [INFO] [Thread 128981468710592] Asset created: Code: VALE3, Company: VALE3 S.A., Market Volume: 7225
+[2024-09-28 14:17:11] [INFO] [Thread 128981468710592] Position added: Asset Code: VALE3, Shares: 85
+[2024-09-28 14:17:11] [INFO] [Thread 128981468710592] Order created: ID: 2, Type: SELL, Shares: 85, Price: 100.00
+[2024-09-28 14:17:11] [INFO] [Thread 128981458224832] Asset created: Code: ITUB4, Company: ITUB4 S.A., Market Volume: 3364
+[2024-09-28 14:17:11] [INFO] [Thread 128981458224832] Order created: ID: 1, Type: BUY, Shares: 58, Price: 100.00

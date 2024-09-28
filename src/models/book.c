@@ -87,13 +87,13 @@ void match_order(Book *book, Order *incoming_order, OrderQueue *opposite_queue)
             return;
         }
 
+        add_transaction(book, &transaction);
+
         if (matched_order.status == CANCELED)
         {
             log_message(LOG_WARNING, "Matched order was canceled. Transaction will not be added.");
             return;
         }
-
-        add_transaction(book, &transaction);
 
         enqueue_order(book->orders_channel_out, &matched_order);
         enqueue_order(book->orders_channel_out, incoming_order);

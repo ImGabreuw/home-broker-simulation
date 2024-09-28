@@ -61,7 +61,6 @@ void *investor_lifecycle(void *arg)
             Position new_position = {.shares = shares};
             strncpy(new_position.asset_code, asset_code, 6);
             add_asset_position(investor, &new_position);
-            update_asset_position(investor, asset_code, 0);
         }
 
         add_waitgroup(book.wg, 1);
