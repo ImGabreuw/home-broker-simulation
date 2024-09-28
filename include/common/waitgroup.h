@@ -7,6 +7,7 @@ typedef struct
 {
     int waitGroupSize;
     pthread_mutex_t mutex;
+    pthread_cond_t cond; 
 } Waitgroup;
 
 int init_waitgroup(Waitgroup *wg);
@@ -17,4 +18,6 @@ void done_waitgroup(Waitgroup *wg);
 
 void wait_waitgroup(Waitgroup *wg);
 
-#endif // #ifndef WAITGROUP_H
+void destroy_waitgroup(Waitgroup *wg); 
+
+#endif // WAITGROUP_H

@@ -21,6 +21,13 @@ int init_waitgroup(Waitgroup *wg)
         return ERR_MEMORY_ALLOCATION;
     }
 
+    ok = pthread_cond_init(&(wg->cond), NULL);
+    if (ok != 0)
+    {
+        pthread_mutex_destroy(&(wg->mutex));
+        return ERR_MEMORY_ALLOCATION;
+    }
+
     return SUCCESS;
 }
 
@@ -45,6 +52,12 @@ void done_waitgroup(Waitgroup *wg)
 
     pthread_mutex_lock(&(wg->mutex));
     wg->waitGroupSize--;
+
+    if (wg->waitGroupSize <= 0)
+    {
+        pthread_cond_signal(&(wg->cond)); // Sinaliza que a contagem chegou a 0
+    }
+
     pthread_mutex_unlock(&(wg->mutex));
 }
 
@@ -55,15 +68,23 @@ void wait_waitgroup(Waitgroup *wg)
         return;
     }
 
-    while (1)
+    pthread_mutex_lock(&(wg->mutex));
+
+    while (wg->waitGroupSize > 0)
     {
-        pthread_mutex_lock(&(wg->mutex));
-        if (wg->waitGroupSize <= 0)
-        {
-            pthread_mutex_unlock(&(wg->mutex));
-            break;
-        }
-        pthread_mutex_unlock(&(wg->mutex));
-        usleep(100);
+        pthread_cond_wait(&(wg->cond), &(wg->mutex)); // Espera até que o waitGroupSize seja 0
     }
+
+    pthread_mutex_unlock(&(wg->mutex));
+}
+
+void destroy_waitgroup(Waitgroup *wg)
+{
+    if (wg == NULL)
+    {
+        return;
+    }
+
+    pthread_mutex_destroy(&(wg->mutex));
+    pthread_cond_destroy(&(wg->cond));
 }

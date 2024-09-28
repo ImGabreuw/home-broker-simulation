@@ -75,9 +75,9 @@ int update_asset_position(Investor *investor, const char *asset_code, int shares
 
 Position *get_asset_position(Investor *investor, const char *asset_code)
 {
-    if (asset_code == NULL || strlen(asset_code) >= 6)
+    if (asset_code == NULL || strlen(asset_code) >= MAX_ASSET_CODE_LENGTH)
     {
-        log_message(LOG_WARNING, "Invalid asset code");
+        log_message(LOG_WARNING, "Invalid asset code: %s", asset_code ? asset_code : "NULL");
         return NULL;
     }
 
@@ -89,7 +89,7 @@ Position *get_asset_position(Investor *investor, const char *asset_code)
         }
     }
 
-    log_message(LOG_WARNING, "Position with asset code %s not found", asset_code);
+    log_message(LOG_WARNING, "Investor '%s': Position with asset code %s not found", investor->name, asset_code);
     return NULL;
 }
 

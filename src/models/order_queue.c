@@ -35,14 +35,11 @@ int enqueue_order(OrderQueue *queue, Order *order)
         return ERR_VALIDATION;
     }
 
+
     queue->back = (queue->back + 1) % MAX_ORDERS;
     queue->orders[queue->back] = *order;
     queue->count++;
 
-    char action_name[5];
-    get_action_name(order, action_name);
-    log_message(LOG_INFO, "Enqueue %s order for asset code = %s", action_name, order->asset->code);
-    
     return SUCCESS;
 }
 

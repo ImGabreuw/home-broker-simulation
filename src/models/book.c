@@ -1,8 +1,12 @@
 #include "book.h"
+
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+
 #include "error_codes.h"
 #include "log.h"
+#include "asset.h"
 
 void init_book(Book *book, OrderQueue *in, OrderQueue *out, Waitgroup *wg)
 {
@@ -19,153 +23,135 @@ void init_book(Book *book, OrderQueue *in, OrderQueue *out, Waitgroup *wg)
 void trade(Book *book)
 {
     OrderQueue buy_orders;
-    init_order_queue(&buy_orders);
-    log_message(LOG_INFO, "Initialized buy orders queue.");
-
     OrderQueue sell_orders;
+
+    init_order_queue(&buy_orders);
     init_order_queue(&sell_orders);
-    log_message(LOG_INFO, "Initialized sell orders queue.");
+
+    log_message(LOG_INFO, "Buy and sell order queues initialized.");
 
     while (1)
     {
         Order order;
         if (dequeue_order(book->orders_channel_in, &order) != 0)
         {
+            sleep(2); // Simulating delay to listen to order channel
             log_message(LOG_WARNING, "No order received. Continuing to next iteration.");
             continue;
         }
 
         char *asset_code = order.asset->code;
-        log_message(LOG_INFO, "Processing order: %s %s %d shares at price %.2f",
-                    order.action == BUY ? "BUY" : "SELL",
-                    asset_code,
-                    order.shares,
-                    order.price);
+        char action_name[5];
+        get_action_name(&order, action_name);
+        log_message(LOG_INFO, "Processing order: %s %s %d shares at price %.2f", action_name, asset_code, order.shares, order.price);
 
         if (order.action == BUY)
         {
             enqueue_order(&buy_orders, &order);
-            log_message(LOG_INFO, "Enqueued buy order.");
+            log_message(LOG_INFO, "Buy order added to queue: %s", order.asset->code);
 
-            // Verifica se existem ordens de venda para combinar
             if (sell_orders.count > 0 && sell_orders.orders[0].price <= order.price)
             {
-                Order sell_order;
-                dequeue_order(&sell_orders, &sell_order);
-
-                if (sell_order.pending_shares > 0)
-                {
-                    Transaction transaction;
-                    int result = create_transaction(&transaction, &sell_order, &order, order.shares, sell_order.price);
-
-                    if (result == ERR_VALIDATION)
-                    {
-                        log_message(LOG_WARNING, "Failed to create transaction for buy order.");
-                        continue;
-                    }
-
-                    add_transaction(book, &transaction);
-                    log_message(LOG_INFO, "Transaction created: %s sold to %s",
-                                sell_order.asset->code,
-                                order.asset->code);
-
-                    enqueue_order(book->orders_channel_out, &sell_order);
-                    enqueue_order(book->orders_channel_out, &order);
-
-                    if (sell_order.pending_shares > 0)
-                    {
-                        enqueue_order(&sell_orders, &sell_order);
-                        log_message(LOG_INFO, "Sell order re-queued.");
-                    }
-                }
+                match_order(book, &order, &sell_orders);
             }
         }
-
-        if (order.action == SELL)
+        else if (order.action == SELL)
         {
             enqueue_order(&sell_orders, &order);
-            log_message(LOG_INFO, "Enqueued sell order.");
+            log_message(LOG_INFO, "Sell order added to queue: %s", order.asset->code);
 
-            // Verifica se existem ordens de compra para combinar
             if (buy_orders.count > 0 && buy_orders.orders[0].price >= order.price)
             {
-                Order buy_order;
-                dequeue_order(&buy_orders, &buy_order);
-
-                if (buy_order.pending_shares > 0)
-                {
-                    Transaction transaction;
-                    int result = create_transaction(&transaction, &order, &buy_order, order.shares, buy_order.price);
-
-                    if (result == ERR_VALIDATION)
-                    {
-                        log_message(LOG_WARNING, "Failed to create transaction for sell order.");
-                        continue;
-                    }
-
-                    add_transaction(book, &transaction);
-                    log_message(LOG_INFO, "Transaction created: %s bought from %s",
-                                buy_order.asset->code,
-                                order.asset->code);
-
-                    enqueue_order(book->orders_channel_out, &buy_order);
-                    enqueue_order(book->orders_channel_out, &order);
-
-                    if (buy_order.pending_shares > 0)
-                    {
-                        enqueue_order(&buy_orders, &buy_order);
-                        log_message(LOG_INFO, "Buy order re-queued.");
-                    }
-                }
+                match_order(book, &order, &buy_orders);
             }
         }
 
         done_waitgroup(book->wg);
-        log_message(LOG_INFO, "Order processed and Wait Group updated.");
+        log_message(LOG_INFO, "Order processed, wait group updated.");
+    }
+}
+
+void match_order(Book *book, Order *incoming_order, OrderQueue *opposite_queue)
+{
+    Order matched_order;
+    dequeue_order(opposite_queue, &matched_order);
+
+    if (matched_order.pending_shares > 0)
+    {
+        Transaction transaction;
+        int result = create_transaction(&transaction, incoming_order, &matched_order, incoming_order->shares, matched_order.price);
+
+        if (result != SUCCESS)
+        {
+            log_message(LOG_WARNING, "Transaction creation failed.");
+            return;
+        }
+
+        if (matched_order.status == CANCELED)
+        {
+            log_message(LOG_WARNING, "Matched order was canceled. Transaction will not be added.");
+            return;
+        }
+
+        add_transaction(book, &transaction);
+
+        enqueue_order(book->orders_channel_out, &matched_order);
+        enqueue_order(book->orders_channel_out, incoming_order);
+
+        if (matched_order.pending_shares > 0)
+        {
+            enqueue_order(opposite_queue, &matched_order);
+            log_message(LOG_INFO, "Re-queued remaining shares for matched order.");
+        }
     }
 }
 
 void add_transaction(Book *book, Transaction *transaction)
 {
-    int selling_shares = transaction->selling_order->pending_shares;
-    int buying_shares = transaction->buying_order->pending_shares;
+    Investor *selling_investor = transaction->selling_order->investor;
+    Investor *buying_investor = transaction->buying_order->investor;
 
-    // Determina a quantidade mínima de ações que serão transacionadas
-    int min_shares = selling_shares < buying_shares ? selling_shares : buying_shares;
+    int min_shares = transaction->shares;
 
-    // Atualiza as posições dos investidores apenas se houver ações para transacionar
-    if (min_shares > 0)
+    Position *selling_position = get_asset_position(selling_investor, transaction->selling_order->asset->code);
+    Position *buying_position = get_asset_position(buying_investor, transaction->buying_order->asset->code);
+
+    if (selling_position == NULL || selling_position->shares < min_shares)
     {
-        update_asset_position(transaction->selling_order->investor, transaction->selling_order->asset->code, -min_shares);
-        add_buy_order_pending_shares(transaction, -min_shares);
-        update_asset_position(transaction->buying_order->investor, transaction->buying_order->asset->code, min_shares);
-        add_sell_order_pending_shares(transaction, -min_shares);
+        log_message(LOG_WARNING, "Transaction canceled: seller does not have enough shares.");
+        transaction->selling_order->status = CANCELED;
+        return;
     }
-    else
+
+    update_asset_position(selling_investor, transaction->selling_order->asset->code, selling_position->shares - min_shares);
+
+    if (buying_position == NULL)
     {
-        log_message(LOG_WARNING, "No shares to process for transaction, skipping...");
+        buying_position = (Position *)malloc(sizeof(Position));
+        buying_position->shares = 0;
+        strncpy(buying_position->asset_code, transaction->buying_order->asset->code, MAX_ASSET_CODE_LENGTH);
+        buying_position->asset_code[MAX_ASSET_CODE_LENGTH - 1] = '\0';
     }
+
+    update_asset_position(buying_investor, transaction->buying_order->asset->code, buying_position->shares + min_shares);
 
     calculate_total(transaction);
-    log_message(LOG_INFO, "Total calculated for transaction.");
+    log_message(LOG_INFO, "Transaction executed and positions updated.");
 
-    close_buy_order(transaction);
-    close_sell_order(transaction);
-    log_message(LOG_INFO, "Buy and sell orders closed.");
+    store_transaction(book, transaction);
+}
 
-    int transaction_index = 0;
-    while (transaction_index < MAX_TRANSACTIONS && book->transactions[transaction_index].buying_order != NULL)
+void store_transaction(Book *book, Transaction *transaction)
+{
+    for (int i = 0; i < MAX_TRANSACTIONS; i++)
     {
-        transaction_index++;
+        if (book->transactions[i].buying_order == NULL)
+        {
+            book->transactions[i] = *transaction;
+            log_message(LOG_INFO, "Transaction stored at index %d.", i);
+            return;
+        }
     }
 
-    if (transaction_index < MAX_TRANSACTIONS)
-    {
-        book->transactions[transaction_index] = *transaction;
-        log_message(LOG_INFO, "Transaction stored in book at index %d.", transaction_index);
-    }
-    else
-    {
-        log_message(LOG_WARNING, "Transaction limit reached, cannot add more transactions.");
-    }
+    log_message(LOG_WARNING, "Transaction book full, cannot store more transactions.");
 }

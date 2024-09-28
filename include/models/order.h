@@ -14,7 +14,8 @@ typedef enum
 typedef enum
 {
     OPEN,
-    CLOSE
+    CLOSE,
+    CANCELED
 } OrderStatus;
 
 // Fix circular typedef dependency (https://stackoverflow.com/questions/888386/resolve-circular-typedef-dependency)

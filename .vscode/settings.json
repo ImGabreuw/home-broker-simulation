@@ -25,6 +25,9 @@
         "system_error": "c",
         "order_queue.h": "c",
         "scheduler.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "cstdlib": "c",
+        "waitgroup.h": "c",
+        "test_utils.h": "c"
     }
 }
