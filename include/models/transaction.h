@@ -20,7 +20,7 @@ struct Transaction
     time_t created_at;
 };
 
-int create_transaction(Transaction *transaction, Order *selling_order, Order *buying_order, int shares, double price);
+int create_transaction(Transaction *transaction, Order *selling_order, Order *buying_order);
 
 void calculate_total(Transaction *transaction);
 

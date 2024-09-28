@@ -1,6 +1,9 @@
 #ifndef BOOK_H
 #define BOOK_H
 
+#include <pthread.h>
+#include <semaphore.h>
+
 #include "order.h"
 #include "order_queue.h"
 #include "transaction.h"
@@ -10,16 +13,12 @@
 
 typedef struct
 {
-    Order orders[MAX_ORDERS];
     Transaction transactions[MAX_TRANSACTIONS];
-    OrderQueue *orders_channel_in;
-    OrderQueue *orders_channel_out;
-    Waitgroup *wg;
+    OrderQueue *order_channel;
+    pthread_mutex_t lock;  // Mutex para proteger o acesso ao book
 } Book;
 
 extern Book book;
-extern OrderQueue in, out;
-extern Waitgroup wg;
 
 /**
  * @brief Inicializa o book de ordens.
@@ -30,10 +29,8 @@ extern Waitgroup wg;
  *
  * @param book Ponteiro para a estrutura Book a ser inicializada.
  * @param in Ponteiro para a fila de ordens de entrada.
- * @param out Ponteiro para a fila de ordens de saída.
- * @param wg Ponteiro para a estrutura Waitgroup utilizada para sincronização.
  */
-void init_book(Book *book, OrderQueue *in, OrderQueue *out, Waitgroup *wg);
+void init_book(Book *book, OrderQueue *order_channel);
 
 /**
  * @brief Executa o processo de negociação no book de ordens.

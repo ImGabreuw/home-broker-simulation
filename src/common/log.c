@@ -8,6 +8,12 @@
 
 static FILE *log_file = NULL;
 
+/**
+ * O uso de um mutex no log é suficiente para garantir a exclusão mútua durante a escrita no arquivo, evitando sobreposição de logs entre threads. 
+ * Não é necessário usar uma variável de condição (pthread_cond_t), pois não há dependência de estados ou gerenciamento entre threads nesse contexto.
+ */
+static pthread_mutex_t log_mutex;
+
 static const char *get_current_time()
 {
     static char buffer[20];

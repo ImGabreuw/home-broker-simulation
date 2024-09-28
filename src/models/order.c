@@ -27,6 +27,20 @@ int emit_order(Order *order, int id, Investor *investor, Asset *asset, int share
     else if (strcmp(order_type_str, "SELL") == 0)
     {
         order->action = SELL;
+        Position *position = get_asset_position(investor, asset->code);
+
+        if (position == NULL)
+        {
+            log_message(LOG_WARNING, "Cannot emit sell order for asset %s that is not in investor position.", asset->code);
+            return ERR_VALIDATION;
+        }
+
+        if (shares > position->shares)
+        {
+            log_message(LOG_WARNING, "Sell order cannot be emitted. Investor does not have enough shares: Requested: %d, Available: %d",
+                        shares, position->shares);
+            return ERR_VALIDATION;
+        }
     }
     else
     {
@@ -43,8 +57,8 @@ int emit_order(Order *order, int id, Investor *investor, Asset *asset, int share
     order->status = OPEN;
     order->transactions = NULL;
 
-    log_message(LOG_INFO, "Order created: ID: %d, Type: %s, Shares: %d, Price: %.2f",
-                id, order_type_str, shares, price);
+    log_message(LOG_INFO, "%s order emitted: ID: %d, Asset: %s, Shares: %d, Price: %.2f",
+                order_type_str, id, asset->code, shares, price);
     return SUCCESS;
 }
 

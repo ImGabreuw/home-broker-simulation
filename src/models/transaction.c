@@ -5,13 +5,23 @@
 #include "log.h"
 #include "error_codes.h"
 
-int create_transaction(Transaction *transaction, Order *selling_order, Order *buying_order, int shares, double price)
+int create_transaction(Transaction *transaction, Order *selling_order, Order *buying_order)
 {
     if (selling_order == NULL || buying_order == NULL)
     {
         log_message(LOG_WARNING, "Selling or buying order cannot be NULL");
         return ERR_VALIDATION;
     }
+
+    // O número deve ser o mínimo entre as ordens
+    int shares = (selling_order->pending_shares < buying_order->pending_shares)
+                     ? selling_order->pending_shares
+                     : buying_order->pending_shares;
+
+    // O preço da transação é o maior entre as ordens
+    double price = (selling_order->price > buying_order->price)
+                       ? selling_order->price
+                       : buying_order->price;
 
     if (shares <= 0 || price <= 0.0)
     {
@@ -49,8 +59,10 @@ void close_sell_order(Transaction *transaction)
     log_message(LOG_INFO, "Sell order closed: Order ID: %d", transaction->selling_order->id);
 }
 
-void add_buy_order_pending_shares(Transaction *transaction, int shares) {
-    if (transaction->buying_order->pending_shares + shares < 0) {
+void add_buy_order_pending_shares(Transaction *transaction, int shares)
+{
+    if (transaction->buying_order->pending_shares + shares < 0)
+    {
         log_message(LOG_WARNING, "Shares cannot be negative for buying order ID: %d", transaction->buying_order->id);
         return;
     }
@@ -58,11 +70,13 @@ void add_buy_order_pending_shares(Transaction *transaction, int shares) {
     transaction->buying_order->pending_shares += shares;
 }
 
-void add_sell_order_pending_shares(Transaction *transaction, int shares) {
-    if (transaction->selling_order->pending_shares + shares < 0) {
+void add_sell_order_pending_shares(Transaction *transaction, int shares)
+{
+    if (transaction->selling_order->pending_shares + shares < 0)
+    {
         log_message(LOG_WARNING, "Shares cannot be negative for selling order ID: %d", transaction->selling_order->id);
         return;
     }
-    
+
     transaction->selling_order->pending_shares += shares;
 }
