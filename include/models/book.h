@@ -17,6 +17,8 @@ typedef struct
     Waitgroup *wg;
 } Book;
 
+extern Book book;
+
 /**
  * @brief Inicializa o book de ordens.
  *

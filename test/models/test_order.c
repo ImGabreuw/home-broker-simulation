@@ -5,6 +5,7 @@
 
 #include "log.h"
 #include "test_utils.h"
+#include "error_codes.h"
 
 void test_emit_order()
 {
