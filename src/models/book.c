@@ -169,40 +169,32 @@ void add_transaction(Book *book, Transaction *transaction)
     int shares_transacted = transaction->shares;
 
     // Obtendo as posições dos investidores para o ativo transacionado
-    // Position *selling_position = get_asset_position(selling_investor, transaction->selling_order->asset->code);
-    // Position *buying_position = get_asset_position(buying_investor, transaction->buying_order->asset->code);
+    Position *selling_position = get_asset_position(selling_investor, transaction->selling_order->asset->code);
+    Position *buying_position = get_asset_position(buying_investor, transaction->buying_order->asset->code);
 
     // Verificar se o vendedor tem ações suficientes
-    // if (selling_position == NULL || selling_position->shares < shares_transacted)
-    // {
-    //     log_message(LOG_WARNING, "Transaction canceled: seller does not have enough shares.");
-    //     transaction->selling_order->status = CANCELED;
-    //     return;
-    // }
+    if (selling_position == NULL || selling_position->shares < shares_transacted)
+    {
+        log_message(LOG_WARNING, "Transaction canceled: seller does not have enough shares.");
+        transaction->selling_order->status = CANCELED;
+        return;
+    }
 
     // Atualiza a posição do vendedor
-    // update_asset_position(selling_investor, transaction->selling_order->asset->code, selling_position->shares - shares_transacted);
-    update_asset_position(selling_investor, transaction->selling_order->asset->code, 0);
+    update_asset_position(selling_investor, transaction->selling_order->asset->code, selling_position->shares - shares_transacted);
 
     // Atualiza a posição do comprador
-    // if (buying_position == NULL)
-    // {
-    //     // Inicializa a posição se o comprador não tiver ações do ativo
-    //     buying_position = (Position *)malloc(sizeof(Position));
-    //     buying_position->shares = 0;
-    //     strncpy(buying_position->asset_code, transaction->buying_order->asset->code, MAX_ASSET_CODE_LENGTH);
-    //     buying_position->asset_code[MAX_ASSET_CODE_LENGTH - 1] = '\0';
-    // }
-
-    // Inicializa a posição se o comprador não tiver ações do ativo
-    Position *buying_position = (Position *)malloc(sizeof(Position));
-    buying_position->shares = 0;
-    strncpy(buying_position->asset_code, transaction->buying_order->asset->code, MAX_ASSET_CODE_LENGTH);
-    buying_position->asset_code[MAX_ASSET_CODE_LENGTH - 1] = '\0';
+    if (buying_position == NULL)
+    {
+        // Inicializa a posição se o comprador não tiver ações do ativo
+        buying_position = (Position *)malloc(sizeof(Position));
+        buying_position->shares = 0;
+        strncpy(buying_position->asset_code, transaction->buying_order->asset->code, MAX_ASSET_CODE_LENGTH);
+        buying_position->asset_code[MAX_ASSET_CODE_LENGTH - 1] = '\0';
+    }
 
     // Atualiza a posição do comprador
-    // update_asset_position(buying_investor, transaction->buying_order->asset->code, buying_position->shares + shares_transacted);
-    update_asset_position(buying_investor, transaction->buying_order->asset->code, shares_transacted);
+    update_asset_position(buying_investor, transaction->buying_order->asset->code, buying_position->shares + shares_transacted);
 
     // Atualiza o número de shares pendentes das ordens
     transaction->selling_order->pending_shares -= shares_transacted;
