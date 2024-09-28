@@ -18,6 +18,8 @@ typedef struct
 } Book;
 
 extern Book book;
+extern OrderQueue in, out;
+extern Waitgroup wg;
 
 /**
  * @brief Inicializa o book de ordens.

@@ -10,6 +10,8 @@
 #define NUM_INVESTORS 5
 
 Book book;
+OrderQueue in, out;
+Waitgroup wg;
 
 void *trade_thread(void *arg)
 {
@@ -23,10 +25,10 @@ int main(int argc, char const *argv[])
 {
     char log_filename[] = "home_broker_log.txt";
     log_init(log_filename);
-    init_waitgroup(book.wg);
+    init_waitgroup(&wg);
 
     log_message(LOG_INFO, "Home Breaker started...");
-    init_book(&book, book.orders_channel_in, book.orders_channel_out, book.wg);
+    init_book(&book, &in, &out, &wg);
 
     pthread_t trade_thread_id;
     if (pthread_create(&trade_thread_id, NULL, trade_thread, &book) != 0)
@@ -35,7 +37,6 @@ int main(int argc, char const *argv[])
         return ERR_MEMORY_ALLOCATION;
     }
 
-    add_waitgroup(book.wg, 1);
     Investor investors[NUM_INVESTORS];
     char *investor_names[NUM_INVESTORS] = {"Alice", "Bob", "Charlie", "David", "Eve"};
 
@@ -51,7 +52,7 @@ int main(int argc, char const *argv[])
 
     simulate_investor_scheduling(investors, NUM_INVESTORS);
 
-    wait_waitgroup(book.wg);
+    wait_waitgroup(&wg);
     log_cleanup();
 
     return 0;
