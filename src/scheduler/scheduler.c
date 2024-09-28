@@ -32,13 +32,24 @@ void *investor_lifecycle(void *arg)
         int random_asset = rand() % NUM_ASSETS;
         snprintf(asset_code, 6, "%s", ASSETS[random_asset]);
 
-        char asset_company[12];
+        char asset_company[25];
         snprintf(asset_company, sizeof(asset_company), "%s S.A.", asset_code);
 
-        Asset asset;
-        create_asset(&asset, asset_code, asset_company, shares * shares);
+        Asset *asset = (Asset *)malloc(sizeof(Asset));
+        if (asset == NULL)
+        {
+            log_message(LOG_ERROR, "Failed to allocate memory for new asset.");
+            pthread_exit(NULL);
+        }
+        create_asset(asset, asset_code, asset_company, shares * shares);
 
-        Order order;
+        Order *order = (Order *)malloc(sizeof(Order));
+        if (asset == NULL)
+        {
+            log_message(LOG_ERROR, "Failed to allocate memory for new order.");
+            pthread_exit(NULL);
+        }
+
         char *order_type_str;
 
         if (random_action == 0)
@@ -62,10 +73,10 @@ void *investor_lifecycle(void *arg)
             add_asset_position(investor, new_position);
         }
 
-        int result = emit_order(&order, i, investor, &asset, shares, 100.0, order_type_str);
+        int result = emit_order(order, i, investor, asset, shares, 100.0, order_type_str);
         if (result == SUCCESS)
         {
-            enqueue_order(book.order_channel, &order);
+            enqueue_order(book.order_channel, order);
         }
 
         sleep((rand() % 6) + 1);

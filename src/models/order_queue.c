@@ -70,7 +70,6 @@ int dequeue_order(OrderQueue *queue, Order *order)
 
     char action_name[5];
     get_action_name(order, action_name);
-    log_message(LOG_INFO, "Dequeued %s order for asset code = %s", action_name, order->asset->code);
 
     // Libera o semáforo de espaço vazio
     sem_post(&queue->sem_empty);

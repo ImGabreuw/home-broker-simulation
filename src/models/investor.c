@@ -36,7 +36,8 @@ int add_asset_position(Investor *investor, Position *asset_position)
         {
             investor->positions[i] = *asset_position;
 
-            log_message(LOG_INFO, "Position added: Asset Code: %s, Shares: %d", asset_position->asset_code, asset_position->shares);
+            log_message(LOG_INFO, "Position added for investor '%s': Asset Code: %s, Shares: %d",
+                        investor->name, asset_position->asset_code, asset_position->shares);
             return SUCCESS;
         }
     }
@@ -64,7 +65,7 @@ int update_asset_position(Investor *investor, const char *asset_code, int shares
         if (strcmp(investor->positions[i].asset_code, asset_code) == 0)
         {
             investor->positions[i].shares = shares;
-            log_message(LOG_INFO, "Position updated: Asset Code: %s, Shares: %d", asset_code, shares);
+            log_message(LOG_INFO, "Position updated for investor '%s': Asset Code: %s, Shares: %d", investor->name, asset_code, shares);
             return SUCCESS;
         }
     }

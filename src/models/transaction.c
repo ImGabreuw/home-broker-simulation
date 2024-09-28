@@ -36,8 +36,10 @@ int create_transaction(Transaction *transaction, Order *selling_order, Order *bu
     transaction->created_at = time(NULL);
 
     calculate_total(transaction);
-    log_message(LOG_INFO, "Transaction created: Selling Order ID: %d, Buying Order ID: %d, Shares: %d, Price: %.2f, Total: %.2f",
-                selling_order->id, buying_order->id, shares, price, transaction->total);
+    log_message(LOG_INFO, "Transaction created: '%s' Selling %d (shares = %d / pending = %d) of %s <-> '%s' Buying %d (shares = %d / pending = %d) of %s. Total R$ %.2f (shares = %d / price = R$ %.2f)",
+                selling_order->investor->name, shares, selling_order->shares, selling_order->pending_shares, selling_order->asset->code,
+                buying_order->investor->name, shares, buying_order->shares, buying_order->pending_shares, buying_order->asset->code,
+                transaction->total, shares, price);
 
     return SUCCESS;
 }

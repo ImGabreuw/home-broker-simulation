@@ -15,7 +15,7 @@ typedef struct
 {
     Transaction transactions[MAX_TRANSACTIONS];
     OrderQueue *order_channel;
-    pthread_mutex_t lock;  // Mutex para proteger o acesso ao book
+    pthread_mutex_t lock; // Mutex para proteger o acesso ao book
 } Book;
 
 extern Book book;
@@ -54,7 +54,7 @@ void trade(Book *book);
  * @param incoming_order Ponteiro para a ordem de entrada a ser casada.
  * @param opposite_queue Ponteiro para a fila de ordens opostas (compra ou venda).
  */
-void match_order(Book *book, Order *incoming_order, OrderQueue *opposite_queue);
+int match_order(Book *book, Order *incoming_order, OrderQueue *opposite_queue);
 
 /**
  * @brief Adiciona uma transação ao book.

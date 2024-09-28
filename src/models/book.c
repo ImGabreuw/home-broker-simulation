@@ -12,9 +12,8 @@ void init_book(Book *book, OrderQueue *order_channel)
 {
     book->order_channel = order_channel;
 
-    // Inicializa a fila de ordens
     init_order_queue(order_channel);
-    pthread_mutex_init(&book->lock, NULL); // Inicializa o mutex
+    pthread_mutex_init(&book->lock, NULL);
 
     log_message(LOG_INFO, "Initialized book with input and output order channels.");
 }
@@ -34,7 +33,7 @@ void trade(Book *book)
         Order order;
 
         // Protege o acesso ao book com mutex
-        pthread_mutex_lock(&book->lock); 
+        pthread_mutex_lock(&book->lock);
 
         // Pega a nova ordem do canal de entrada
         if (dequeue_order(book->order_channel, &order) == SUCCESS)
@@ -42,36 +41,49 @@ void trade(Book *book)
             char *asset_code = order.asset->code;
             char action_name[5];
             get_action_name(&order, action_name);
-            log_message(LOG_INFO, "Processing new order: %s %s %d shares at price %.2f", action_name, asset_code, order.shares, order.price);
+            log_message(LOG_INFO, "Processing %s order: %s %d shares at price %.2f", action_name, asset_code, order.shares, order.price);
 
             // Adiciona a nova ordem à fila correspondente (compra ou venda)
             if (order.action == BUY)
             {
                 enqueue_order(&buy_orders, &order);
-                log_message(LOG_INFO, "Buy order added to queue: %s", order.asset->code);
+                log_message(LOG_INFO, "Buy order added to 'buy_orders' for %s", order.asset->code);
             }
             else if (order.action == SELL)
             {
                 enqueue_order(&sell_orders, &order);
-                log_message(LOG_INFO, "Sell order added to queue: %s", order.asset->code);
+                log_message(LOG_INFO, "Sell order added to 'sell_orders' for %s", order.asset->code);
             }
         }
 
         pthread_mutex_unlock(&book->lock); // Libera o acesso ao book
 
         // Tenta casar as ordens
+        log_message(LOG_INFO, "Buy Orders: %d / Sell Oders: %d", buy_orders.count, sell_orders.count);
         if (buy_orders.count > 0 && sell_orders.count > 0)
         {
             Order incoming_order;
             if (buy_orders.count > 0)
             {
                 dequeue_order(&buy_orders, &incoming_order);
-                match_order(book, &incoming_order, &sell_orders);
+                int matched = match_order(book, &incoming_order, &sell_orders);
+
+                if (!matched)
+                {
+                    log_message(LOG_INFO, "No matching order found for incoming order: %s", incoming_order.asset->code);
+                    enqueue_order(&buy_orders, &incoming_order);
+                }
             }
             else if (sell_orders.count > 0)
             {
                 dequeue_order(&sell_orders, &incoming_order);
-                match_order(book, &incoming_order, &buy_orders);
+                int matched = match_order(book, &incoming_order, &buy_orders);
+
+                if (!matched)
+                {
+                    log_message(LOG_INFO, "No matching order found for incoming order: %s", incoming_order.asset->code);
+                    enqueue_order(&sell_orders, &incoming_order);
+                }
             }
         }
         else
@@ -79,23 +91,25 @@ void trade(Book *book)
             log_message(LOG_INFO, "No matching orders to process. Waiting for new orders...");
         }
 
-        log_message(LOG_INFO, "Order processing completed, wait group updated.");
+        sleep(1);
+        log_message(LOG_INFO, "Order processing completed.");
     }
 }
 
-void match_order(Book *book, Order *incoming_order, OrderQueue *opposite_queue)
+int match_order(Book *book, Order *incoming_order, OrderQueue *opposite_queue)
 {
     Order matched_order;
     int matched = 0;
+    int attempts = opposite_queue->count;
 
     // Tenta casar a ordem atual com ordens opostas
-    while (opposite_queue->count > 0)
+    while (opposite_queue->count > 0 && attempts > 0)
     {
-        // Dequeue a ordem oposta
+        attempts--;
         if (dequeue_order(opposite_queue, &matched_order) != SUCCESS)
         {
             log_message(LOG_WARNING, "No matched order available in the opposite queue.");
-            return;
+            return -1;
         }
 
         // Verifica se os códigos dos ativos são iguais
@@ -113,16 +127,15 @@ void match_order(Book *book, Order *incoming_order, OrderQueue *opposite_queue)
                 if (result != SUCCESS)
                 {
                     log_message(LOG_WARNING, "Transaction creation failed.");
-                    return;
+                    return -1;
                 }
 
-                // Adiciona a transação ao livro
                 add_transaction(book, &transaction);
 
                 if (matched_order.status == CANCELED)
                 {
                     log_message(LOG_WARNING, "Matched order was canceled. Transaction will not be added.");
-                    return;
+                    return -1;
                 }
 
                 // Envia as ordens correspondentes ao canal de saída
@@ -145,12 +158,7 @@ void match_order(Book *book, Order *incoming_order, OrderQueue *opposite_queue)
         }
     }
 
-    if (!matched)
-    {
-        log_message(LOG_INFO, "No matching order found for incoming order: %s", incoming_order->asset->code);
-        // Se nenhuma ordem foi combinada, a ordem de entrada permanece na fila de sua respectiva ação
-        enqueue_order(opposite_queue, incoming_order);
-    }
+    return matched;
 }
 
 void add_transaction(Book *book, Transaction *transaction)
@@ -161,32 +169,40 @@ void add_transaction(Book *book, Transaction *transaction)
     int shares_transacted = transaction->shares;
 
     // Obtendo as posições dos investidores para o ativo transacionado
-    Position *selling_position = get_asset_position(selling_investor, transaction->selling_order->asset->code);
-    Position *buying_position = get_asset_position(buying_investor, transaction->buying_order->asset->code);
+    // Position *selling_position = get_asset_position(selling_investor, transaction->selling_order->asset->code);
+    // Position *buying_position = get_asset_position(buying_investor, transaction->buying_order->asset->code);
 
     // Verificar se o vendedor tem ações suficientes
-    if (selling_position == NULL || selling_position->shares < shares_transacted)
-    {
-        log_message(LOG_WARNING, "Transaction canceled: seller does not have enough shares.");
-        transaction->selling_order->status = CANCELED;
-        return;
-    }
+    // if (selling_position == NULL || selling_position->shares < shares_transacted)
+    // {
+    //     log_message(LOG_WARNING, "Transaction canceled: seller does not have enough shares.");
+    //     transaction->selling_order->status = CANCELED;
+    //     return;
+    // }
 
     // Atualiza a posição do vendedor
-    update_asset_position(selling_investor, transaction->selling_order->asset->code, selling_position->shares - shares_transacted);
+    // update_asset_position(selling_investor, transaction->selling_order->asset->code, selling_position->shares - shares_transacted);
+    update_asset_position(selling_investor, transaction->selling_order->asset->code, 0);
 
     // Atualiza a posição do comprador
-    if (buying_position == NULL)
-    {
-        // Inicializa a posição se o comprador não tiver ações do ativo
-        buying_position = (Position *)malloc(sizeof(Position));
-        buying_position->shares = 0;
-        strncpy(buying_position->asset_code, transaction->buying_order->asset->code, MAX_ASSET_CODE_LENGTH);
-        buying_position->asset_code[MAX_ASSET_CODE_LENGTH - 1] = '\0';
-    }
+    // if (buying_position == NULL)
+    // {
+    //     // Inicializa a posição se o comprador não tiver ações do ativo
+    //     buying_position = (Position *)malloc(sizeof(Position));
+    //     buying_position->shares = 0;
+    //     strncpy(buying_position->asset_code, transaction->buying_order->asset->code, MAX_ASSET_CODE_LENGTH);
+    //     buying_position->asset_code[MAX_ASSET_CODE_LENGTH - 1] = '\0';
+    // }
+
+    // Inicializa a posição se o comprador não tiver ações do ativo
+    Position *buying_position = (Position *)malloc(sizeof(Position));
+    buying_position->shares = 0;
+    strncpy(buying_position->asset_code, transaction->buying_order->asset->code, MAX_ASSET_CODE_LENGTH);
+    buying_position->asset_code[MAX_ASSET_CODE_LENGTH - 1] = '\0';
 
     // Atualiza a posição do comprador
-    update_asset_position(buying_investor, transaction->buying_order->asset->code, buying_position->shares + shares_transacted);
+    // update_asset_position(buying_investor, transaction->buying_order->asset->code, buying_position->shares + shares_transacted);
+    update_asset_position(buying_investor, transaction->buying_order->asset->code, shares_transacted);
 
     // Atualiza o número de shares pendentes das ordens
     transaction->selling_order->pending_shares -= shares_transacted;
@@ -204,7 +220,6 @@ void add_transaction(Book *book, Transaction *transaction)
         close_buy_order(transaction);
     }
 
-    // Armazena a transação
     store_transaction(book, transaction);
 
     calculate_total(transaction);
@@ -218,7 +233,7 @@ void store_transaction(Book *book, Transaction *transaction)
         if (book->transactions[i].buying_order == NULL)
         {
             book->transactions[i] = *transaction;
-            log_message(LOG_INFO, "Transaction stored in the book.");
+            log_message(LOG_INFO, "Transaction stored at position %d in the book.", i + 1);
             break;
         }
     }
