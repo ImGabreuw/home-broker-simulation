@@ -13,8 +13,7 @@
 #include "log.h"
 #include "error_codes.h"
 #include "book.h"
-
-static const char *ASSETS[NUM_ASSETS] = {"PETR4", "VALE3", "ITUB4"};
+#include "asset.h"
 
 InvestorQueue queue;
 
@@ -27,24 +26,10 @@ void *investor_lifecycle(void *arg)
     {
         int random_action = rand() % 2; // 0 = compra, 1 = venda
         int shares = (rand() % 100) + 1;
-
-        char asset_code[6];
         int random_asset = rand() % NUM_ASSETS;
-        snprintf(asset_code, 6, "%s", ASSETS[random_asset]);
-
-        char asset_company[25];
-        snprintf(asset_company, sizeof(asset_company), "%s S.A.", asset_code);
-
-        Asset *asset = (Asset *)malloc(sizeof(Asset));
-        if (asset == NULL)
-        {
-            log_message(LOG_ERROR, "Failed to allocate memory for new asset.");
-            pthread_exit(NULL);
-        }
-        create_asset(asset, asset_code, asset_company, shares * shares);
 
         Order *order = (Order *)malloc(sizeof(Order));
-        if (asset == NULL)
+        if (order == NULL)
         {
             log_message(LOG_ERROR, "Failed to allocate memory for new order.");
             pthread_exit(NULL);
@@ -59,21 +44,9 @@ void *investor_lifecycle(void *arg)
         else
         {
             order_type_str = "SELL";
-
-            Position *new_position = (Position *)malloc(sizeof(Position));
-            if (new_position == NULL)
-            {
-                log_message(LOG_ERROR, "Failed to allocate memory for new position.");
-                pthread_exit(NULL);
-            }
-
-            new_position->shares = shares;
-            strncpy(new_position->asset_code, asset_code, 6);
-
-            add_asset_position(investor, new_position);
         }
 
-        int result = emit_order(order, i, investor, asset, shares, 100.0, order_type_str);
+        int result = emit_order(order, i, investor, &assets[random_asset], shares, 100.0, order_type_str);
         if (result == SUCCESS)
         {
             enqueue_order(book.order_channel, order);

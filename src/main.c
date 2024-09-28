@@ -1,16 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "log.h"
 #include "book.h"
 #include "error_codes.h"
 #include "investor.h"
 #include "scheduler.h"
+#include "asset.h"
 
 #define NUM_INVESTORS 5
 
 Book book;
 OrderQueue order_channel;
+
+Asset assets[NUM_ASSETS];
 
 void *trade_thread(void *arg)
 {
@@ -21,6 +25,8 @@ void *trade_thread(void *arg)
 
 int main(int argc, char const *argv[])
 {
+    srand(time(NULL));
+
     char log_filename[] = "home_broker_log.txt";
     log_init(log_filename);
 
@@ -32,6 +38,14 @@ int main(int argc, char const *argv[])
     {
         log_message(LOG_ERROR, "Failed to create trade thread.");
         return ERR_MEMORY_ALLOCATION;
+    }
+
+    for (int i = 0; i < NUM_ASSETS; i++)
+    {
+        if (create_asset(&assets[i], ASSETS_CODE[i], COMPANY_NAMES[i], 1000) != SUCCESS)
+        {
+            printf("Failed to create asset %s\n", ASSETS_CODE[i]);
+        }
     }
 
     Investor investors[NUM_INVESTORS];
@@ -51,6 +65,23 @@ int main(int argc, char const *argv[])
         {
             log_message(LOG_ERROR, "Failed to create investor: %s", investor_names[i]);
             return ERR_MEMORY_ALLOCATION;
+        }
+
+        for (int i = 0; i < NUM_ASSETS; i++)
+        {
+            Position *new_position = (Position *)malloc(sizeof(Position));
+            
+            if (new_position == NULL)
+            {
+                log_message(LOG_ERROR, "Failed to allocate memory for new position.");
+                pthread_exit(NULL);
+            }
+            int shares = (rand() % 100) + 5001;
+            new_position->shares = shares;
+
+            strncpy(new_position->asset_code, ASSETS_CODE[i], MAX_ASSET_CODE_LENGTH);
+
+            add_asset_position(investor, new_position);
         }
 
         investors[i] = *investor;

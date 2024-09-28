@@ -5,6 +5,9 @@
 #include "error_codes.h"
 #include "log.h"
 
+const char *ASSETS_CODE[NUM_ASSETS] = {"PETR4", "VALE3", "ITUB4"};
+const char *COMPANY_NAMES[NUM_ASSETS] = {"Petrobras", "Vale", "Itau Unibanco"};
+
 int create_asset(Asset *asset, const char *code, const char *company_name, int market_volume)
 {
     if (code == NULL || strlen(code) >= MAX_CODE_LENGTH)
