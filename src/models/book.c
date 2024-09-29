@@ -43,7 +43,6 @@ void trade(Book *book)
             get_action_name(&order, action_name);
             log_message(LOG_INFO, "Processing %s order: %s %d shares at price %.2f", action_name, asset_code, order.shares, order.price);
 
-            // Adiciona a nova ordem à fila correspondente (compra ou venda)
             if (order.action == BUY)
             {
                 enqueue_order(&buy_orders, &order);
@@ -59,7 +58,7 @@ void trade(Book *book)
         pthread_mutex_unlock(&book->lock); // Libera o acesso ao book
 
         // Tenta casar as ordens
-        log_message(LOG_INFO, "Buy Orders: %d / Sell Oders: %d", buy_orders.count, sell_orders.count);
+        log_message(LOG_INFO, "Buy Orders: %d / Sell Orders: %d", buy_orders.count, sell_orders.count);
         if (buy_orders.count > 0 && sell_orders.count > 0)
         {
             Order incoming_order;
@@ -112,11 +111,10 @@ int match_order(Book *book, Order *incoming_order, OrderQueue *opposite_queue)
             return -1;
         }
 
-        // Verifica se os códigos dos ativos são iguais
         if (strcmp(incoming_order->asset->code, matched_order.asset->code) == 0)
         {
             log_message(LOG_INFO, "Matching order found: %s", incoming_order->asset->code);
-            matched = 1; // Indica que encontramos um match
+            matched = 1;
 
             // Verifica se a ordem combinada ainda tem ações pendentes
             if (matched_order.pending_shares > 0)
