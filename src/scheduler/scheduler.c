@@ -60,15 +60,21 @@ void *investor_lifecycle(void *arg)
 
 void *scheduler_thread(void *arg)
 {
-    while (queue.count > 0) // Verifica se ainda há investidores na fila
+    while (queue.count > 0)
     {
-        Investor *investor = dequeue_investor(&queue);
-
-        if (investor != NULL)
+        srand(time(NULL));
+        // int pool = (rand() % 3) + 1;
+        int pool = 1;
+        for (int i = 0; i < pool; i++)
         {
-            log_message(LOG_INFO, "Escalonando investidor: %s", investor->name);
-            pthread_create(&investor->id, NULL, investor_lifecycle, (void *)investor);
-            enqueue_investor(&queue, investor);
+            Investor *investor = dequeue_investor(&queue);
+
+            if (investor != NULL)
+            {
+                log_message(LOG_INFO, "Escalonando investidor: %s", investor->name);
+                pthread_create(&investor->id, NULL, investor_lifecycle, (void *)investor);
+                enqueue_investor(&queue, investor);
+            }
         }
 
         // Aguarda um tempo antes de escalonar o próximo investidor
