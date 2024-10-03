@@ -114,7 +114,7 @@ classDiagram
 
 ### Descrição
 
-A entidade `Investor` representa um investidor que possui uma carteira de ativos financeiros. Além disso, eles realizam ações de compra e venda de ações de forma aleatória, com intervalos variáveis e revezamento em grupos, a aplicação pode seguir o conceito de escalonamento circular por quantum, semelhante ao Round Robin. Além disso, a lógica de multithreading será usada para simular a execução de cada investidor, e uma fila de execução será usada para gerenciar os grupos de investidores ativos.
+A entidade `Investor` representa um investidor que possui uma carteira de ativos financeiros. Eles realizam ações de compra e venda de ações de forma aleatória, com intervalos variáveis e revezamento em grupos, onde a aplicação pode seguir o conceito de escalonamento circular por quantum, semelhante ao Round Robin. Além disso, a lógica de multithreading será usada para simular a execução de cada investidor, e uma fila de execução será usada para gerenciar os grupos de investidores ativos.
 
 ### Atributos
 
