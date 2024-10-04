@@ -12,6 +12,15 @@
 
 #define NUM_INVESTORS 5
 
+/*
+Integrantes:
+
+Enzo Ribeiro                    - 10418262
+Gabriel Ken Kazama Geronazzo    - 10418247
+Lucas Pires de Camargo Sarai    - 10418013
+Lucas Zanini da Silva           - 10417361
+*/
+
 Book book;
 OrderQueue order_channel;
 
@@ -71,7 +80,7 @@ int main(int argc, char const *argv[])
         for (int i = 0; i < NUM_ASSETS; i++)
         {
             Position *new_position = (Position *)malloc(sizeof(Position));
-            
+
             if (new_position == NULL)
             {
                 log_message(LOG_ERROR, "Failed to allocate memory for new position.");
@@ -90,7 +99,8 @@ int main(int argc, char const *argv[])
 
     simulate_investor_scheduling(investors, NUM_INVESTORS);
 
-    while (1) {
+    while (1)
+    {
         sleep(1);
     }
 
