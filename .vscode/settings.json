@@ -29,6 +29,8 @@
         "cstdlib": "c",
         "waitgroup.h": "c",
         "test_utils.h": "c",
-        "investor_queue.h": "c"
+        "investor_queue.h": "c",
+        "semaphore.h": "c",
+        "stdlib.h": "c"
     }
 }

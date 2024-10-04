@@ -55,7 +55,7 @@ void trade(Book *book)
             }
         }
 
-        pthread_mutex_unlock(&book->lock); // Libera o acesso ao book
+        pthread_mutex_unlock(&book->lock);
 
         // Tenta casar as ordens
         log_message(LOG_INFO, "Buy Orders: %d / Sell Orders: %d", buy_orders.count, sell_orders.count);
@@ -111,7 +111,8 @@ int match_order(Book *book, Order *incoming_order, OrderQueue *opposite_queue)
             return -1;
         }
 
-        if (strcmp(incoming_order->asset->code, matched_order.asset->code) == 0)
+        if (strcmp(incoming_order->asset->code, matched_order.asset->code) == 0
+        && strcmp(incoming_order->investor->name, matched_order.investor->name) != 0)
         {
             log_message(LOG_INFO, "Matching order found: %s", incoming_order->asset->code);
             matched = 1;

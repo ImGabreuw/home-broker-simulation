@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "log.h"
 #include "book.h"
@@ -88,6 +89,10 @@ int main(int argc, char const *argv[])
     }
 
     simulate_investor_scheduling(investors, NUM_INVESTORS);
+
+    while (1) {
+        sleep(1);
+    }
 
     log_cleanup();
 

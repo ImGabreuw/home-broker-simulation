@@ -49,10 +49,18 @@ void *investor_lifecycle(void *arg)
         int result = emit_order(order, i, investor, &assets[random_asset], shares, 100.0, order_type_str);
         if (result == SUCCESS)
         {
-            enqueue_order(book.order_channel, order);
+            if (book.order_channel->count == MAX_ORDERS)
+            {
+                log_message(LOG_INFO, "Order queue reach max capacity %d/%d. Rejecting order...", book.order_channel->count, MAX_ORDERS);
+            }
+            else
+            {
+                enqueue_order(book.order_channel, order);
+                log_message(LOG_INFO, "Order add at position %d. Order queue capacity (%d/%d)", book.order_channel->back, book.order_channel->count, MAX_ORDERS);
+            }
         }
 
-        sleep((rand() % 6) + 1);
+        sleep(rand() % 2);
     }
 
     pthread_exit(NULL);
@@ -71,7 +79,7 @@ void *scheduler_thread(void *arg)
 
             if (investor != NULL)
             {
-                log_message(LOG_INFO, "Escalonando investidor: %s", investor->name);
+                log_message(LOG_INFO, "Scheduling investor: %s", investor->name);
                 pthread_create(&investor->id, NULL, investor_lifecycle, (void *)investor);
                 enqueue_investor(&queue, investor);
             }
@@ -79,10 +87,12 @@ void *scheduler_thread(void *arg)
 
         // Aguarda um tempo antes de escalonar o próximo investidor
         sleep(INVESTOR_LIFETIME);
+        sleep((rand() % 3) + 1);
     }
 
     // Espera até que todas as threads de investidores terminem
     pthread_exit(NULL);
+    return NULL;
 }
 
 void simulate_investor_scheduling(Investor *investors, int num_investors)
@@ -96,5 +106,5 @@ void simulate_investor_scheduling(Investor *investors, int num_investors)
 
     pthread_t scheduler;
     pthread_create(&scheduler, NULL, scheduler_thread, NULL);
-    pthread_join(scheduler, NULL);
+    // pthread_join(scheduler, NULL);
 }

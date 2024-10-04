@@ -1,6 +1,8 @@
 #include "order_queue.h"
+
 #include <stdio.h>
 #include <string.h>
+
 #include "log.h"
 #include "error_codes.h"
 
@@ -17,9 +19,9 @@ int init_order_queue(OrderQueue *queue)
     queue->count = 0;
 
     // Inicializa semáforos
-    sem_init(&queue->sem_empty, 0, MAX_ORDERS); // Inicializa como MAX_ORDERS
-    sem_init(&queue->sem_full, 0, 0);           // Inicializa como 0
-    pthread_mutex_init(&queue->mutex, NULL);    // Inicializa o mutex
+    sem_init(&queue->sem_empty, 0, MAX_ORDERS);
+    sem_init(&queue->sem_full, 0, 0);
+    pthread_mutex_init(&queue->mutex, NULL);
 
     return SUCCESS;
 }
@@ -42,10 +44,9 @@ int enqueue_order(OrderQueue *queue, Order *order)
     queue->orders[queue->back] = *order;
     queue->count++;
 
-    // Libera o semáforo de ordens
-    sem_post(&queue->sem_full);
+    pthread_mutex_unlock(&queue->mutex);
 
-    pthread_mutex_unlock(&queue->mutex); // Desbloqueia o mutex
+    sem_post(&queue->sem_full);
 
     return SUCCESS;
 }
@@ -71,10 +72,9 @@ int dequeue_order(OrderQueue *queue, Order *order)
     char action_name[5];
     get_action_name(order, action_name);
 
-    // Libera o semáforo de espaço vazio
-    sem_post(&queue->sem_empty);
-
     pthread_mutex_unlock(&queue->mutex);
+
+    sem_post(&queue->sem_empty);
 
     return SUCCESS;
 }

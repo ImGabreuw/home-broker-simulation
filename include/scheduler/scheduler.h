@@ -5,7 +5,7 @@
 
 #include "investor.h"
 
-#define INVESTOR_LIFETIME 2 // Tempo de execução para cada investidor (em segundos)
+#define INVESTOR_LIFETIME 4 // Tempo de execução para cada investidor (em segundos)
 #define MAX_OPERATIONS 5
 
 /**

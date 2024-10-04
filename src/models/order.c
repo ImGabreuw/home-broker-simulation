@@ -57,8 +57,8 @@ int emit_order(Order *order, int id, Investor *investor, Asset *asset, int share
     order->status = OPEN;
     order->transactions = NULL;
 
-    log_message(LOG_INFO, "%s order emitted: ID: %d, Asset: %s, Shares: %d, Price: %.2f",
-                order_type_str, id, asset->code, shares, price);
+    log_message(LOG_INFO, "%s order emitted: Asset: %s, Shares: %d, Price: %.2f",
+                order_type_str, asset->code, shares, price);
     return SUCCESS;
 }
 
